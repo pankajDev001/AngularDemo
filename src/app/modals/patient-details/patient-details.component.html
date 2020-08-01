@@ -1,0 +1,87 @@
+<div class="modal-header">
+  <h4 class="modal-title">Patient Details</h4>
+  <button type="button" class="close" aria-label="Close" (click)="close()">
+    <img src="assets/images/close.svg" alt="close icon" width="25">
+  </button>
+</div>
+<div class="modal-body">
+  <div class="details-card">
+    <div class="details-header">General Details</div>
+    <div class="details-card-body">
+      <div class="row">
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Name</div>
+          <div class="label-text">{{patientDetails? patientDetails.patientName : ''}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Gender</div>
+          <div class="label-text">{{patientDetails? patientDetails.gender : ''}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Date of Birth</div>
+          <div class="label-text">{{patientDetails? patientDetails.dob : ''}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Email Address</div>
+          <div class="label-text">{{(patientDetails? patientDetails.email : '') | lowercase }}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Contact No</div>
+          <div class="label-text">{{patientDetails? patientDetails.phone : ''}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Address Line</div>
+          <div class="label-text">{{patientDetails? patientDetails.address : ''}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">State</div>
+          <div class="label-text">{{patientDetails? patientDetails.state : ''}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">City</div>
+          <div class="label-text">{{patientDetails? patientDetails.city : ''}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Zipcode</div>
+          <div class="label-text">{{patientDetails? patientDetails.zipcode : ''}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Patient Type</div>
+          <div class="label-text">{{(patientDetails? patientDetails.patientType : '') | titlecase}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Emergency Contact Name</div>
+          <div class="label-text">{{(patientDetails? patientDetails.emergencyContactName : '') | titlecase}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Emergency Contact No</div>
+          <div class="label-text">{{(patientDetails? patientDetails.emergencyContactNo : '') | titlecase}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="details-card">
+    <div class="details-header">Insurance Details</div>
+    <div class="details-card-body">
+      <div class="row">
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Insurance Type</div>
+          <div class="label-text">{{patientDetails? patientDetails.insuranceType : ''}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

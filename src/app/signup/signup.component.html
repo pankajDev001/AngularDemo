@@ -1,0 +1,250 @@
+<!-- Transition is not applied because position absolute issue -->
+<div class="page-center-wrapper">
+  <div class="page-center py-3">
+    <div class="healthPro-card big-card">
+      <div class="healthPro-card-container shadow-lg bg-white">
+        <div class="healthPro-card-header">
+          <div class="healthPro-card-header-title">{{'HomeHealthPro' | translate }}</div>
+        </div>
+
+        <div class="healthPro-card-body">
+          <div class="healthPro-card-body-info">
+            <h1>{{'Sign Up' | translate}}</h1>
+            <p>{{'Create Your Agency Account' | translate}}</p>
+          </div>
+          <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" autocomplete="off">
+            <div class="healthPro-card-formContent">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="agencyName" class="col-form-label">Agency Name<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="Agency Name" id="agencyName" formControlName="AgencyName">
+
+                    <div *ngIf="signupForm.controls['AgencyName'].hasError('required') && submitted" class="text-danger error">Agency Name is required.</div>
+                    <div *ngIf="signupForm.controls['AgencyName'].hasError('pattern') && submitted" class="text-danger error">Agency Name is invalid.</div>
+                    <div *ngIf="signupForm.controls['AgencyName'].hasError('minlength') && submitted" class="text-danger error">Agency Name is too short.</div>
+                    <div *ngIf="signupForm.controls['AgencyName'].hasError('maxlength') && submitted" class="text-danger error">Agency Name should not be greater then 25 Characters.</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="agenciesType" class="col-form-label">Agency Type<span class="text-danger">*</span></label>
+                    <ng-select
+                      id="agenciesType"
+                      class="ng-select-control"
+                      [items]="agenciesType"
+                      bindLabel="value"
+                      placeholder="Select Agency Type"
+                      [clearable]="false"
+                      formControlName="AgencyTypeId"
+                    ></ng-select>
+
+                    <div *ngIf="signupForm.controls['AgencyTypeId'].hasError('required') && submitted" class="text-danger error">Agency Type is required.</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="contactPersonName" class="col-form-label">Contact Person Name<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="Contact Person Name" id="contactPersonName" formControlName="ContactPersonName">
+
+                    <div *ngIf="signupForm.controls['ContactPersonName'].hasError('required') && submitted" class="text-danger error">Contact Person Name is required.</div>
+                    <div *ngIf="signupForm.controls['ContactPersonName'].hasError('pattern') && submitted" class="text-danger error">Contact Person Name is invalid.</div>
+                    <div *ngIf="signupForm.controls['ContactPersonName'].hasError('minlength') && submitted" class="text-danger error">Agency Name is too short.</div>
+                    <div *ngIf="signupForm.controls['ContactPersonName'].hasError('maxlength') && submitted" class="text-danger error">Agency Name should not be greater then 25 Characters.</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="emailAddress" class="col-form-label">Email Address<span class="text-danger">*</span></label>
+                    <input type="email" class="form-control" placeholder="Email Address" id="emailAddress" formControlName="Email">
+
+                    <div *ngIf="signupForm.controls['Email'].hasError('required') && submitted" class="text-danger error">Email Address is required.</div>
+                    <div *ngIf="(signupForm.controls['Email'].hasError('email') || signupForm.controls['Email'].hasError('pattern')) && submitted" class="text-danger error">Email Address is invalid.</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="contactNo" class="col-form-label">Contact No<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="Phone: (000-000-0000)"  id="contactNo" formControlName="ContactNo"  mask="000-000-0000">
+
+                    <div *ngIf="signupForm.controls['ContactNo'].hasError('required') && submitted" class="text-danger error">Phone number is required.</div>
+                    <div *ngIf="signupForm.controls['ContactNo'].hasError('pattern') && submitted" class="text-danger error">Only number is required.</div>
+                    <div *ngIf="(signupForm.controls['ContactNo'].hasError('minlength') || signupForm.controls['ContactNo'].hasError('maxlength')) && submitted" class="text-danger error">Phone number should have 10 digits.</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="fax" class="col-form-label">FAX<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="FAX: (000-000-0000)" id="fax" formControlName="Fax"  mask="000-000-0000">
+
+                    <div *ngIf="signupForm.controls['Fax'].hasError('required') && submitted" class="text-danger error">Fax number is required.</div>
+                    <div *ngIf="signupForm.controls['Fax'].hasError('pattern') && submitted" class="text-danger error">Fax number is required.</div>
+                    <div *ngIf="(signupForm.controls['Fax'].hasError('minlength') || signupForm.controls['Fax'].hasError('maxlength')) && submitted" class="text-danger error">Fax number should have 10 digits.</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="addressLine" class="col-form-label">Address Line<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="Address Line" id="addressLine" formControlName="AddressLine">
+
+                    <div *ngIf="signupForm.controls['AddressLine'].hasError('required') && submitted" class="text-danger error">Address Line is required.</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="state" class="col-form-label">State<span class="text-danger">*</span></label>
+                    <ng-select
+                      id="state"
+                      class="ng-select-control"
+                      placeholder="Select State"
+                      [items]="states"
+                      bindLabel="value"
+                      (change)="getCityList($event)"
+                      [clearable]="false"
+                      formControlName="StateId"
+                    ></ng-select>
+
+                    <div *ngIf="signupForm.controls['StateId'].hasError('required') && submitted" class="text-danger error">State is required.</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="city" class="col-form-label">City<span class="text-danger">*</span></label>
+                    <ng-select
+                      id="city"
+                      class="ng-select-control"
+                      placeholder="Select City"
+                      [clearable]="false"
+                      [items]="cities"
+                      bindLabel="value"
+                      (change)="getZipcodeList($event)"
+                      formControlName="CityId"
+                    ></ng-select>
+
+                    <div *ngIf="signupForm.controls['CityId'].hasError('required') && submitted" class="text-danger error">City is required.</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="zipCode" class="col-form-label">Zip Code<span class="text-danger">*</span></label>
+                    <ng-select
+                      id="zipCode"
+                      class="ng-select-control"
+                      placeholder="Select Zipcode"
+                      [clearable]="false"
+                      [items]="zipcodes"
+                      bindLabel="value"
+                      [searchable]="false"
+                      formControlName="ZipCode"
+                    ></ng-select>
+
+                    <div *ngIf="signupForm.controls['ZipCode'].hasError('required') && submitted" class="text-danger error">Zip code is required.</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="password" class="col-form-label">Password<span class="text-danger">*</span></label>
+                    <input type="password" class="form-control" placeholder="Password" id="password" formControlName="Password" autocomplete="off">
+
+                    <div *ngIf="signupForm.controls['Password'].hasError('required') && submitted" class="text-danger error">Password is required.</div>
+                    <div *ngIf="signupForm.controls['Password'].hasError('pattern') && submitted" class="text-danger error">Password must be 8 Characters long and must contain at least one upper case character, one lowercase character, one number and one alphanumeric character.</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="confirmPassword" class="col-form-label">Confirm Password<span class="text-danger">*</span></label>
+                    <input type="password" class="form-control" placeholder="Confirm Password" id="confirmPassword" formControlName="ConfirmPassword" autocomplete="off">
+
+                    <div *ngIf="signupForm.controls['ConfirmPassword'].hasError('required') && submitted" class="text-danger error">Confirm Password is required.</div>
+                    <div *ngIf="signupForm.controls['ConfirmPassword'].dirty && signupForm.hasError('mismatchedPasswords') && !signupForm.controls['ConfirmPassword'].hasError('required')" class="text-danger error">Password don't match.</div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="form-group">
+                    <div class="radio-check">
+                      <span class="radio-label">Do you have a EMR system which will be used for documenting clinical notes for visit?</span>
+                      <label class="radio-check-wrapper">
+                        <input type="radio" name="IsEMRSystem" (change)="setVal($event)" [value]="true" formControlName="IsEMRSystem">
+                        <span class="radio"></span>
+                        <span class="radio-label">Yes</span>
+                      </label>
+
+                      <label class="radio-check-wrapper">
+                        <input type="radio" name="IsEMRSystem" (change)="setVal($event)" [value]="false" formControlName="IsEMRSystem">
+                        <span class="radio"></span>
+                        <span class="radio-label">No</span>
+                      </label>
+                    </div>
+                    <div *ngIf="signupForm.controls['IsEMRSystem'].hasError('required') && submitted" class="text-danger error">Please select EMRSystem.</div>
+                  </div>
+                </div>
+                <div class="col-12" *ngIf="signupForm.controls['IsEMRSystem'].value">
+                  <div class="form-group">
+                    <label for="EMRSystemName" class="col-form-label">EMR System Name<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="EMR System Name" id="EMRSystemName" formControlName="EMRSystemName" autocomplete="off">
+
+                    <div *ngIf="signupForm.controls['EMRSystemName'].hasError('required') && submitted" class="text-danger error">EMR Name is required.</div>
+                  </div>
+                </div>
+                <div class="col-12" *ngIf="!signupForm.controls['IsEMRSystem'].value">
+                  <div class="form-group">
+                    <div class="radio-check">
+                      <span class="radio-label">If not, will you utilize the HomeHealthPro electronic clinical notes?</span>
+                      <label class="radio-check-wrapper">
+                        <input type="radio" name="IsClinicalNotes" [value]="true" formControlName="IsClinicalNotes">
+                        <span class="radio"></span>
+                        <span class="radio-label">Yes</span>
+                      </label>
+
+                      <label class="radio-check-wrapper">
+                        <input type="radio" name="IsClinicalNotes" [value]="false" formControlName="IsClinicalNotes">
+                        <span class="radio"></span>
+                        <span class="radio-label">No</span>
+                      </label>
+                    </div>
+                    <div *ngIf="signupForm.controls['IsClinicalNotes'].hasError('required') && submitted" class="text-danger error">Please select Clinician Notes.</div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="form-group">
+                    <label class="select-checkbox sqaure-checkbox label-checkbox"><span class="label-text">I accept all the <a href="javascript:;">terms and conditions</a> to access this web application.<span class="text-danger">*</span></span>
+                      <input type="checkbox" formControlName="TermsConditions">
+                      <span class="checkmark"></span>
+                    </label>
+
+                    <div *ngIf="signupForm.controls['TermsConditions'].hasError('required') && submitted" class="text-danger error">Kindly check mark terms & conditions.</div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block btn-radius">Sign up</button>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="text-center">
+                    <span class="info-text">Already have an account? <a class="btn-link" [routerLink]="['/login']">{{ 'Login here' | translate}}</a></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

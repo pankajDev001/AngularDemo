@@ -1,0 +1,72 @@
+<div class="row page-header-wrapper shadow-sm">
+  <div class="col">
+    <h2 class="page-header">Admin Permissions</h2>
+  </div>
+</div>
+
+<div [@routerTransition]>
+  <div class="row modules-section">
+    <div class="mb-sm-4 mb-lg-0 col-sm-12 col-lg-4">
+      <div class="card">
+        <div class="card-header">Admin Users</div>
+        <div class="card-body">
+          <form>
+            <div class="form-group">
+              <input type="text" class="form-control filter-control" name="searchKey" [(ngModel)]="searchKey" placeholder="Search">
+            </div>
+          </form>
+
+          <div class="modules-users-list">
+            <ul malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+              <li class="cursor-pointer" [ngClass]="selectedUser.userId == item.userId ? 'active' : ''" *ngFor="let item of adminList | searchPipe:'fullName':searchKey" (click)="getAdminModules(item)">{{ item.fullName }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-lg-8">
+      <div class="card h-800">
+        <div class="card-header">Permissions: {{userName}}</div>
+        <div class="card-body">
+          <form>
+            <div id="module-listing" class="modules-listing-section">
+              <div class="modules-heading d-flex">
+                <div class="heading">Modules List</div>
+                <div class="heading-action">View</div>
+                <div class="heading-action">Edit</div>
+                <div class="heading-action">Delete</div>
+              </div>
+
+              <div class="modules-list" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+                <div class="modules-list-group d-flex" *ngFor="let mod of modules; let i = index;">
+                  <div class="module-name">{{mod.moduleName}}</div>
+                  <div class="module-action">
+                    <label class="select-checkbox sqaure-checkbox">
+                      <input type="checkbox"  [checked]="mod.isView" (change)="changeStatus('isView', i, $event)" [id]="mod.moduleID">
+                      <span class="checkmark"></span>
+                    </label>
+                  </div>
+                  <div class="module-action">
+                    <label class="select-checkbox sqaure-checkbox">
+                      <input type="checkbox" [checked]="mod.isEdit" (change)="changeStatus('isEdit', i, $event)" [id]="mod.moduleID">
+                      <span class="checkmark"></span>
+                    </label>
+                  </div>
+                  <div class="module-action">
+                    <label class="select-checkbox sqaure-checkbox">
+                      <input type="checkbox" [checked]="mod.isDelete" (change)="changeStatus('isDelete', i, $event)" [id]="mod.moduleID">
+                      <span class="checkmark"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button class="primary-gradient-btn mt-3" type="button" (click)="updateModules()">Save</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

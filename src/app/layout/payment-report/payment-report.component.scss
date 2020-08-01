@@ -1,0 +1,26 @@
+::ng-deep{
+  .table-export-btn{
+    .dataTables_wrapper{
+      div.dt-buttons {
+        position: absolute;
+        float: none;
+        top: -50px;
+        right: 0;
+        .dt-button{
+          &:last-child{
+            margin-right: 0;
+          }
+        }
+        &:before {
+          content: 'DOWNLOAD AS:';
+          color: #132e68;
+          font-weight: 500;
+          font-size: 14px;
+          @media (max-width:640px){
+            display: none;
+          }
+      }
+      }
+    }    
+  }
+}

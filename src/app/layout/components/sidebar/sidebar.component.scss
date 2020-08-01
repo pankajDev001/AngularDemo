@@ -1,0 +1,253 @@
+@import "../../../../styles/healthPro/globalVars";
+$topnav-background-color: #fff;
+// Global
+.nav-effect {
+    background: linear-gradient(90deg, rgba(33, 106, 211, 1) 25%, rgba(102, 51, 153, 1) 100%);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+}
+
+.sidebar {
+    border-radius: 0;
+    position: fixed;
+    z-index: 1000;
+    top: 56px;
+    left: 235px;
+    width: 235px;
+    margin-left: -235px;
+    // margin-bottom: 48px;
+    border: none;
+    border-radius: 0;
+    overflow-y: auto;
+    background-color: $topnav-background-color;
+    bottom: 0;
+    overflow-x: hidden;
+    // padding-bottom: 40px;
+    white-space: nowrap;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -ms-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    // border-top: 1px solid rgba(255,255,255,0.3);
+    .list-group {
+        a.list-group-item {
+            background: $topnav-background-color;
+            border: 0;
+            border-radius: 0;
+            color: #8b90af;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            margin-bottom: 10px;
+            position: relative;
+            transition: all ease-in-out .3s;
+            .text-wrapper {
+                position: relative;
+                z-index: 2;
+            }
+            .fa {
+                margin-right: 10px;
+            }
+        }
+        a:after {
+            content: '';
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            width: 90%;
+            height: 100%;
+            border-top-right-radius: 25px;
+            border-bottom-right-radius: 25px;
+            transition: all ease-in-out .3s;
+        }
+        a:hover {
+            color: #fff;
+            &:after {
+                background: $purple-1;
+            }
+        }
+        a.router-link-active {
+            font-weight: 600;
+            color: #fff;
+            &:after {
+                background: $purple-1;
+            }
+        }
+        .header-fields {
+            padding-top: 10px;
+            >.list-group-item:first-child {
+                border-top: 1px solid rgba(255, 255, 255, 0.2);
+            }
+        }
+    }
+    .sidebar-dropdown {
+        *:focus {
+            border-radius: none;
+            border: none;
+        }
+        .panel-title {
+            font-size: 1rem;
+            height: 50px;
+            margin-bottom: 0;
+            a {
+                color: #999;
+                text-decoration: none;
+                font-weight: 400;
+                background: $topnav-background-color;
+                span {
+                    position: relative;
+                    display: block;
+                    padding: 0.75rem 1.5rem;
+                    padding-top: 1rem;
+                }
+            }
+            a:hover,
+            a:focus {
+                color: #fff;
+                outline: none;
+                outline-offset: -2px;
+            }
+        }
+        .panel-title:hover {
+            background: darken($topnav-background-color, 5%);
+        }
+        .panel-collapse {
+            border-radius: 0;
+            border: none;
+            .panel-body {
+                .list-group-item {
+                    border-radius: 0;
+                    background-color: $topnav-background-color;
+                    border: 0 solid transparent;
+                    a {
+                      color: #999;
+                    }
+                    a:hover {
+                      color: #fff;
+                    }
+                }
+                .list-group-item:hover {
+                  background: darken($topnav-background-color, 5%);
+                }
+            }
+        }
+    }
+    // Super Admin Section
+    .super-admin-section {
+        padding: 30px;
+        .image-wrapper {
+            width: 90px;
+            height: 90px;
+            border: 8px solid #eaecf4;
+            border-radius: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        figcaption {
+            margin-top: 15px;
+            text-align: center;
+            h1 {
+                font-size: 15px;
+                font-weight: 500;
+                color: #132e68;
+            }
+            h2 {
+                font-size: 13px;
+                color: #132e68;
+                margin: 0;
+            }
+        }
+    }
+}
+
+.nested-menu {
+  .list-group-item {
+    cursor: pointer;
+
+    &:hover{
+      background: darken($topnav-background-color, 5%);
+    }
+  }
+  .nested {
+    list-style-type: none;
+  }
+  ul.submenu {
+    display: none;
+  }
+  ul.submenu.expand {
+    display: block;
+    list-style-type: none;
+    padding: 0;
+    li {
+        a {
+            position: relative;
+            padding: 10px;
+            display: block;
+        }
+    }
+  }   
+}
+
+@media screen and (max-width: 992px) {
+    .sidebar {
+        top: 54px;
+        left: 0px;
+    }
+}
+
+@media print {
+    .sidebar {
+        display: none !important;
+    }
+}
+
+@media (min-width: 992px) {
+    .header-fields {
+        display: none;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 0px rgba(255, 255, 255, 1);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0 0 3px rgba(255, 255, 255, 1);
+}
+
+.toggle-button {
+    position: fixed;
+    width: 236px;
+    cursor: pointer;
+    padding: 12px;
+    bottom: 0;
+    color: #999;
+    background: #212529;
+    i {
+        font-size: 23px;
+    }
+    &:hover {
+        background: darken($topnav-background-color, 5%);
+        color: #fff;
+    }
+    border-top: 1px solid #999;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -ms-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+.collapsed {
+    width: 60px;
+    span {
+        display: none;
+    }
+}

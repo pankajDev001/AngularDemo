@@ -1,0 +1,132 @@
+<div class="row page-header-wrapper shadow-sm">
+  <div class="col">
+    <h2 class="page-header">{{user.firstName}}</h2>
+  </div>
+  <div class="col-auto p-relative pr-4">
+    <button class="btn primary-gradient-btn btn-filter" (click)="onFilterToggle($event)"><span class="filter-text mr-2">FILTERS</span> <i class="fa fa-filter"></i></button>
+    <form class="page-header-filter" [class.active]="classApplied" [formGroup]="filterForm" novalidate (ngSubmit)="onSubmit()" autocomplete="off">
+      <div class="row">
+        <div class="col-auto">
+          <label class="col-form-label font-weight-bold">FILTERS</label> 
+        </div>
+
+        <div class="col-auto">
+          <div class="form-group">
+              <ng-select
+                class="ng-filter-control"
+                placeholder="Select Clinician"
+                [items]="clinicians"
+                bindLabel="fullName"
+                bindValue="clinicianId"
+                formControlName="Clinicians"
+                [clearable]="false"
+              ></ng-select>
+          </div>
+        </div>
+
+        <div class="col-auto">
+          <div class="form-group">
+            <div class="input-group filter-group">
+              <input type="text" tabindex="-1" class="form-control date" readonly ngbDatepicker #dpFromDate="ngbDatepicker" (dateSelect)="onFromDateSelection($event)"
+                placeholder="From" formControlName="FromDate" value="{{newFromDate}}" 
+                [minDate]="{year: year - 50 , month: month, day: day}"
+                [maxDate]="{year: year + 20 , month: month, day: day}"
+                >
+              <div class="input-group-append">
+                <button class="btn calendar" type="button" (click)="dpFromDate.toggle()">
+                  <i class="fa fa-calendar"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-auto">
+          <div class="form-group">
+            <div class="input-group filter-group">
+              <input type="text" tabindex="-1" class="form-control date" readonly ngbDatepicker #dpToDate="ngbDatepicker" (dateSelect)="onToDateSelection($event)"
+                formControlName="ToDate" placeholder="To" value="{{newToDate}}"  [minDate]="{year: year - 50 , month: month, day: day}"
+                [maxDate]="{year: year + 20 , month: month, day: day}"
+                >
+              <div class="input-group-append">
+                <button class="btn calendar" type="button" (click)="dpToDate.toggle()">
+                  <i class="fa fa-calendar"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col text-center">
+          <button type="submit" class="primary-gradient-btn">Submit</button>
+          <button type="button" class="btn btn-link btn-rounded" (click)="resetFilterForm()">Reset</button>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<div [@routerTransition]>
+  <div class="total-section">
+    <div class="row d-flex justify-content-start align-items-stretch">
+      <div class="col-sm-12 col-md-6 col-lg-4 col-xl" *ngFor="let total of dashboardData.dashboardTotalCounterCards">
+        <div class="card text-center">
+          <div class="card-header">{{total.key}}</div>
+          <div class="card-body">{{total.value}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-item-center">Recently Scheduled Visits
+          <div>
+            <a [routerLink]="['/scheduled-visits']" class="btn btn-outline-primary btn-radius btn-sm d-none d-md-inline-block">view all</a>
+            <a [routerLink]="['/scheduled-visits/add/0']" class="ml-2 btn primary-gradient-btn btn-radius btn-sm d-none d-md-inline-block">Schedule Visit</a>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="hide-dt-search no-wrap-dt">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="scheduledtTrigger" id="recent-scheduled-visits">
+              <thead>
+                <tr>
+                  <th scope="col">Patient Name</th>
+                  <th scope="col">Clinician Name</th>
+                  <th scope="col">Visit Date</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Service</th>
+                  <!-- <th scope="col">Clinician Fees</th> -->
+                  <!-- <th scope="col">CPF</th> -->
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let visit of dashboardData.recentlyScheduledVisit">
+                  <td>{{visit.patientName}}</td>
+                  <td>{{visit.clinicianName}}</td>
+                  <td>{{visit.visitDate}}</td>
+                  <td>{{visit.disciplineNeeded}}</td>
+                  <td>{{visit.serviceNeeded}}</td>
+                  <!-- <td>${{visit.clinicianFee}}</td> -->
+                  <!-- <td>${{visit.cpf}}</td> -->
+                  <td *ngIf="visit.visitStatus == 'COMPLETED'" class="text-success font-weight-bold"><span class="badge badge-success badge-pill">Completed</span></td>
+                  <td *ngIf="visit.visitStatus == 'ASSIGNED'" class="text-success font-weight-bold"><span class="badge badge-caret badge-pill">Assigned</span></td>
+                  <td *ngIf="visit.visitStatus == 'RESCHEDULED'" class="text-success font-weight-bold"><span class="badge badge-rescheduled badge-pill">Rescheduled</span></td>
+                  <td *ngIf="visit.visitStatus == 'CANCELLED'" class="text-success font-weight-bold"><span class="badge badge-danger badge-pill">Cancelled</span></td>
+                  <td *ngIf="visit.visitStatus == 'SERVICE-PROVIDED'" class="text-success font-weight-bold"><span class="badge badge-info badge-pill">Service Provided</span></td>
+                  <td *ngIf="visit.visitStatus == 'PENDING'" class="text-success font-weight-bold"><span class="badge badge-secondary badge-pill">Pending</span></td>
+                  <td *ngIf="visit.visitStatus == 'IN-PROGRESS'" class="text-success font-weight-bold"><span class="badge badge-warning badge-pill">In-Progress</span></td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

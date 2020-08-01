@@ -1,0 +1,25 @@
+<div class="row page-header-wrapper shadow-sm">
+    <div class="col">
+        <h2 class="page-header">Scheduled Visits</h2>
+    </div>
+    <div class="col-auto p-relative pr-4">
+        <a *ngIf="user.role == 'AGENCY'" [routerLink]="['/scheduled-visits/add/0']" class="primary-gradient-btn mr-2">Schedule Visit</a>
+
+        <button class="btn primary-gradient-btn btn-filter" (click)="onFilterToggle($event)"><span class="filter-text mr-2">FILTERS</span> <i class="fa fa-filter"></i></button>
+        <div class="page-header-filter" [class.active]="classApplied">
+            <div class="form-group mb-0">
+                <label for="scheduled-visits-status" class="col-form-label">Visit Status</label>
+                <ng-select class="ng-filter-control" id="scheduled-visits-status" [items]="scheduledVisits" bindLabel="value" [clearable]="false" [searchable]="false" dropdownPosition="bottom" placeholder="Select Status" [(ngModel)]="scheduledVisits[0]" (change)="onChangePatientVisit($event)">
+                </ng-select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div [@routerTransition]>
+    <div class="card">
+        <div class="card-body">
+            <table datatable [dtOptions]="dtOptions" id="scheduled-visits"></table>
+        </div>
+    </div>
+</div>

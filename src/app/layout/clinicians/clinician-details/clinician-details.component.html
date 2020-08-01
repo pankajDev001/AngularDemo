@@ -1,0 +1,144 @@
+<div class="row page-header-wrapper shadow-sm">
+  <div class="col">
+    <h2 class="page-header has-breadcrumb">{{clinicianData?.clinician ? clinicianData?.clinician?.fullName : '-'}}
+
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a [routerLink]="['/clinicians']">Clinicians</a></li>
+        <li class="breadcrumb-item">{{clinicianData?.clinician ? clinicianData?.clinician?.fullName : '-'}}</li>
+      </ol>
+    </h2>
+  </div>
+  <div class="col-auto p-relative">
+      <button class="btn primary-gradient-btn btn-filter" (click)="onFilterToggle($event)"><span class="filter-text mr-2">FILTERS</span> <i class="fa fa-filter"></i></button>
+      <div class="page-header-filter" [class.active]="classApplied">
+          <div class="form-group  mb-0">
+              <label for="scheduled-visits-status" class="col-form-label">Visit Status</label>
+              <ng-select
+               class="ng-filter-control"
+                id="scheduled-visits-status"
+                [items]="scheduledVisits"
+                bindLabel="value"
+                [clearable]="false"
+                [searchable]="false"
+                dropdownPosition="bottom"
+                placeholder="Select Status"
+                (change)="onChangePatientVisit($event)"
+                [(ngModel)]="scheduledVisits[0]"
+              >
+              </ng-select>
+            </div>
+      </div>
+  </div>
+</div>
+<div [@routerTransition]>
+  <div class="detail-section">
+    <div class="left-section">
+      <div class="card user-card user-details-card">
+        <div class="card-header d-flex justify-content-between" *ngIf="user.role === 'SUPER_ADMIN' || isEditPermission || isDeletePermission">
+          <div class="active-inactive">
+            <label class="switch">
+              <input type="checkbox" [checked]="clinicianData?.clinician?.active" (change)="changeStatus($event)" [id]="clinicianData?.clinician?.userId">
+              <span class="slider round"></span>
+            </label>
+          </div>
+          <div class="actions-wrapper">
+            <div class="edit" *ngIf="user.role === 'SUPER_ADMIN' || isEditPermission ">
+              <a (click)="editClinician(clinicianData?.clinician)" placement="top" ngbTooltip="Edit">
+                <div class="icon-wrapper">
+                  <i class="fa fa-pencil"></i>
+                </div>
+              </a>
+            </div>
+            <div class="delete" *ngIf="user.role === 'SUPER_ADMIN' || isDeletePermission ">
+              <a (click)="deleteClinician()" placement="top" ngbTooltip="Delete">
+                <div class="icon-wrapper">
+                  <i class="fa fa-trash"></i>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body" *ngIf="clinicianData">
+          <div class="user-details d-sm-flex text-center text-sm-left">
+            <div class="user-avatar-section">
+              <img [src]="contentUrl+''+clinicianData?.clinician?.profileImage" alt="" width="80" class="rounded-circle">
+            </div>
+            <div class="user-avatar-details">
+              <div class="name-text-style"> {{clinicianData?.clinician ? clinicianData?.clinician?.fullName : '-'}}</div>
+              <div class="job-title-text-style">{{clinicianData?.clinician ? clinicianData?.clinician?.patientType : '-'}}</div>
+              <div class="reviews-text-style">
+                <span class="ml-0" (click)="onRate($event,clinicianData?.clinician)" >
+                    <star-rating [value]="clinicianData?.clinician?.averageRating" [totalstars]="5" checkedcolor="#f2cc00" uncheckedcolor="#999999" size="19" [readonly]="true"
+                    style="display: inline-block"></star-rating>
+                    <span class="ml-1 cursor-pointer">({{ (clinicianData?.clinician ? clinicianData?.clinician?.averageRating  : '0.0') | number:'1.1-1'}} / {{clinicianData?.clinician ? clinicianData?.clinician?.totalRatings : '0'}} Reviews)</span>
+                </span>
+
+
+              </div>
+              <div class="contact-text-style">
+                <span>Phone:- {{clinicianData?.clinician ? clinicianData?.clinician?.contactNo : '-'}}</span>
+                <span>Email:- {{(clinicianData?.clinician ? clinicianData?.clinician?.email  : '-') | lowercase }}</span>
+              </div>
+              <div class="address-text-style">{{clinicianData?.clinician ? clinicianData?.clinician?.addressLine : ''}}, {{clinicianData?.clinician ? clinicianData?.clinician?.city : ''}}, {{clinicianData?.clinician ? clinicianData?.clinician?.stateCode : ''}}, {{clinicianData?.clinician ? clinicianData?.clinician?.zipCode: ''}}</div>
+              <div class="other-details d-flex align-items-center justify-content-center justify-content-sm-start">
+                <div class="card-label">B/G Check:
+                  <span *ngIf="clinicianData?.clinician?.backgroudVerficationStatus;else bgPending" class="text-success font-weight-bold">Done</span>
+                  <ng-template #bgPending> <span class="text-danger font-weight-bold">Pending</span></ng-template>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="skills-text-style">Skills:- {{clinicianData?.clinicianExtra?.categories ? clinicianData?.clinicianExtra?.categories : 'N/A'}}</div>
+            </div>
+          </div>
+
+          <div class="documents-sections">
+            <div class="section-title">Uploaded Documents</div>
+            <div class="row" *ngIf="clinicianData?.clinicianFiles.length > 0">
+              <div class="col-sm-6" *ngFor="let document of clinicianData?.clinicianFiles">
+                <div class="document-wrapper d-flex align-items-center">
+                  <div class="document-thumbnail">
+                      <img *ngIf="document.documentName.split('.').pop() === 'doc'" src="assets/images/doc.svg" alt="" class="img-responsive" />
+                      <img *ngIf="document.documentName.split('.').pop() === 'pdf'" src="assets/images/pdf.svg" alt="" class="img-responsive" />
+                    
+                    <span class="doc-icon"><img src="assets/images/green-check.png" alt="icon" /></span>
+                  </div>
+                  <div class="document-title"><a href="{{contentUrl+document.documentPath}}" target="_blank">{{document.documentName}}</a></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="clinicianData?.clinicianFiles == 0">
+              <div class="job-title-text-style pl-3">No Documents Uploaded</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row revenue-section">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header text-center">Revenue Earned</div>
+            <div class="card-body">
+              <div class="total-revenue">${{(clinicianData?.clinicianRevenue ? clinicianData?.clinicianRevenue?.totalRevenueEarned : '0.00') | number:'1.2-2'}}</div>
+            </div>
+            <div class="text-center">
+              <a class="btn btn-link" [routerLink]="['/payment-report']">View Details</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-section">
+      <div class="card">
+        <div class="card-header">Scheduled Visits</div>
+        <div class="card-body">
+          <table datatable [dtOptions]="dtOptions"  id="clinician-scheduled-visits" class="table-sm"></table>
+        </div>
+      </div>
+    </div>
+  </div>

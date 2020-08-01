@@ -1,0 +1,13 @@
+<div class="row page-header-wrapper shadow-sm">
+  <div class="col-12">
+    <h2 class="page-header">Admin Users
+      <a *ngIf="user.role === 'SUPER_ADMIN'" class="primary-gradient-btn" (click)="addAdminModal()">Create New</a>
+    </h2>
+  </div>
+</div>
+
+<div class="card" [@routerTransition]>
+  <div class="card-body">
+    <table datatable [dtOptions]="dtOptions" id="admins-listing"></table>
+  </div>
+</div>

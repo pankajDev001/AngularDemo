@@ -1,0 +1,102 @@
+<div class="row page-header-wrapper shadow-sm">
+  <div class="col-12">
+    <h2 class="page-header">Category Fee</h2>
+  </div>
+</div>
+
+<div [@routerTransition]>
+  <div class="row">
+    <div class="col">
+      <div class="card table-card">
+        <div class="card-header">Fee Structure</div>
+        <div class="card-body">
+          <form [formGroup]="categoryForm">
+            <div class="table-responsive hide-dt-search no-wrap-dt" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+              <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="db-image-table fees-table">
+                <thead>
+                <tr>
+                  <th rowspan="2" class="text-left">CATEGORY</th>
+                  <th class="blank"></th>
+                  <th colspan="2" class="info">EVALUATION</th>
+                  <th class="blank"></th>
+                  <th colspan="2" class="blue">DISCHARGE</th>
+                  <th class="blank"></th>
+                  <th colspan="2" class="green">TREATMENT VISIT</th>
+                </tr>
+                <tr>
+                  <th class="blank"></th>
+                  <th>Min</th>
+                  <th>Max</th>
+                  <th class="blank"></th>
+                  <th>Min</th>
+                  <th>Max</th>
+                  <th class="blank"></th>
+                  <th>Min</th>
+                  <th>Max</th>
+                </tr>
+                </thead>
+                <tbody formArrayName="categories">
+                <tr *ngFor="let group of getControls(); let i = index;" [formGroupName]="i">
+                  <td class="text-left">{{ group.value.categoryLabel}} </td>
+                  <td class="blank"></td>
+                  <td>
+                    <div class="input-group">
+                      <div class="input-group-prepend border-0"><div class="input-group-text">$</div></div>
+                      <input type="text" mask= '0*.0*' [dropSpecialCharacters]="false"  (change)="setValidation('evaluation',i)" class="form-control text-center" formControlName="evaluationMin">
+                      <div *ngIf="group.get('evaluationMin').hasError('required') && submitted" class="text-danger error">Min Value is required</div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="input-group">
+                      <div class="input-group-prepend border-0"><div class="input-group-text">$</div></div>
+                      <input type="text"  mask= '0*.0*' [dropSpecialCharacters]="false" (change)="setValidation('evaluation',i)"  class="form-control text-center" formControlName="evaluationMax">
+                      <div *ngIf="group.get('evaluationMax').hasError('required') && submitted" class="text-danger error">Max Value is required</div>
+                      <div *ngIf="group.get('evaluationMax').hasError('min') && submitted" class="text-danger error">Max value can't greater  than Min</div>
+                    </div>
+                  </td>
+                  <td class="blank"></td>
+                  <td>
+                    <div class="input-group">
+                      <div class="input-group-prepend border-0"><div class="input-group-text">$</div></div>
+                      <input type="text"  mask= '0*.0*' [dropSpecialCharacters]="false" (change)="setValidation('discharge',i)" class="form-control text-center" formControlName="dischargeMin">
+                      <div *ngIf="group.get('dischargeMin').hasError('required') && submitted" class="text-danger error">Min Value is required</div>
+                      
+                    </div>
+                  </td>
+                  <td>
+                    <div class="input-group">
+                      <div class="input-group-prepend border-0"><div class="input-group-text">$</div></div>
+                      <input type="text"  mask= '0*.0*' [dropSpecialCharacters]="false" (change)="setValidation('discharge',i)" class="form-control text-center" formControlName="dischargeMax">
+                      <div *ngIf="group.get('dischargeMax').hasError('required') && submitted" class="text-danger error">Max Value is required</div>
+                      <div *ngIf="group.get('dischargeMax').hasError('min') && submitted" class="text-danger error">Max value can't greater  than Min</div>
+                    </div>
+                  </td>
+                  <td class="blank"></td>
+                  <td>
+                    <div class="input-group">
+                      <div class="input-group-prepend border-0"><div class="input-group-text">$</div></div>
+                      <input type="text"  mask= '0*.0*' [dropSpecialCharacters]="false" (change)="setValidation('treatmentVisit',i)" class="form-control text-center" formControlName="treatmentVisitMin">
+                      <div *ngIf="group.get('treatmentVisitMin').hasError('required') && submitted" class="text-danger error">Min Value is required</div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="input-group">
+                      <div class="input-group-prepend border-0"><div class="input-group-text">$</div></div>
+                      <input type="text"  mask= '0*.0*' [dropSpecialCharacters]="false" (change)="setValidation('treatmentVisit',i)" class="form-control text-center" formControlName="treatmentVisitMax">
+                      <div *ngIf="group.get('treatmentVisitMax').hasError('required') && submitted" class="text-danger error">Max Value is required</div>
+                      <div *ngIf="group.get('treatmentVisitMax').hasError('min') && submitted" class="text-danger error">Max value can't greater  than Min</div>
+                    </div>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </form>
+          <div class="col pb-3" *ngIf="isEditPermission">
+            <button class="primary-gradient-btn" type="submit" (click)="updateFee()">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,86 @@
+<div class="row page-header-wrapper shadow-sm">
+    <div class="col">
+        <h2 class="page-header">Payment Report</h2>
+    </div>
+    <div class="col-auto p-relative" *ngIf="user.role != 'AGENCY'">
+        <button class="btn primary-gradient-btn btn-filter" (click)="onFilterToggle($event)"><span class="filter-text mr-2">FILTERS</span> <i class="fa fa-filter"></i></button>
+        <form class="page-header-filter" [class.active]="classApplied"  [formGroup]="filterForm" (ngSubmit)="filterForm.valid && onSubmit()" autocomplete="off">
+            <div class="row">                     
+                <div class="col-auto">
+                   <div class="form-group">
+                        <label for="agencyName" class="col-form-label">Select Agency</label>
+                        <ng-select id="agencyName" class="ng-filter-control" [items]="agencies" bindLabel="agencyName" bindValue="agencyId" formControlName="Agencies" placeholder="Select Agency"
+                        [clearable]="false"></ng-select>
+                   </div>
+                </div>
+                <div class="col-auto">
+                   <div class="form-group">
+                        <label for="agencyName" class="col-form-label">Select Clinician</label>
+                        <ng-select id="selectClinician" class="ng-filter-control" placeholder="Select Clinician" [items]="clinicians" bindLabel="fullName" bindValue="clinicianId" formControlName="Clinicians"
+                    [clearable]="false"></ng-select>
+                   </div>
+                </div>
+        
+                <div class="col-auto">
+                    <div class="form-group">
+                        <label for="fromDate" class="col-form-label">From Date</label>
+                        <div class="input-group filter-group">
+                            <input type="text" id="fromDate" class="form-control date" readonly ngbDatepicker #dpFromDate="ngbDatepicker" (dateSelect)="onFromDateSelection($event)"
+                                placeholder="From" formControlName="FromDate" value="{{newFromDate}}">
+                            <div class="input-group-append">
+                                <button class="btn calendar" type="button" (click)="dpFromDate.toggle()">
+                                <i class="fa fa-calendar"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div *ngIf="filterForm.controls['FromDate'].invalid" class="text-danger error">Invalid Date Range Selected.</div>
+                    </div>
+                </div>
+        
+                <div class="col-auto">
+                    <div class="form-group">
+                        <label for="toDate" class="col-form-label">To Date</label>
+                        <div class="input-group filter-group">
+                        <input type="text" id="toDate" class="form-control date" readonly ngbDatepicker #dpToDate="ngbDatepicker" (dateSelect)="onToDateSelection($event)"
+                            formControlName="ToDate" placeholder="To" [minDate]="fromDate" value="{{newToDate}}">
+                        <div class="input-group-append">
+                            <button class="btn calendar" type="button" (click)="dpToDate.toggle()">
+                            <i class="fa fa-calendar"></i>
+                            </button>
+                        </div>
+                        </div>
+                        <div *ngIf="filterForm.controls['ToDate'].invalid" class="text-danger error">Invalid Date Range Selected.</div>
+                    </div>
+                </div>
+        
+                <div class="col text-center">
+                    <button type="submit" class="primary-gradient-btn">Submit</button>
+                    <button type="button" class="btn btn-link btn-rounded ml-3" (click)="resetFilterForm()">Reset</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div [@routerTransition]>
+  <div class="total-section">
+    <div class="row d-flex justify-content-start align-items-stretch">
+      <div class="col-sm-6 col-lg-4 col-xl mb-4" *ngFor="let total of paymentCard">
+        <div class="card text-center h-100 mb-0">
+          <div class="card-header">{{total.key}}</div>
+          <div class="card-body">${{total.value}}</div>
+        </div>
+      </div>          
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">Payment Report</div>
+        <div class="card-body table-export-btn pt-3">
+          <table datatable [dtOptions]="dtOptions" id="payment-report-table"></table>
+        </div>
+    </div>
+  </div>
+</div>

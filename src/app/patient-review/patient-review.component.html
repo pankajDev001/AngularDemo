@@ -1,0 +1,81 @@
+<!-- Transition is not applied because position absolute issue -->
+<div class="page-center-wrapper">
+  <div class="page-center py-3">
+    <div class="healthPro-card big-card" [ngStyle]="{'max-width': (isThakYou) ? '530px' : '860px'}">
+      <div class="healthPro-card-container shadow-lg bg-white">
+        <div class="healthPro-card-header">
+          <div class="healthPro-card-header-title">{{'HomeHealthPro' | translate }}</div>
+        </div>
+
+        <div class="healthPro-card-body">
+          <h4 class="text-center text-success" [ngClass]="isThakYou ? 'd-block' : 'd-none'">Thank you for your feedback review !</h4>
+          <div class="healthPro-card-body-info" [ngClass]="!isThakYou ? 'd-block' : 'd-none'">
+            <h1>{{'Patient Review' | translate}}</h1>
+            <p>{{'Post a review for clinician' | translate}}</p>
+          </div>
+          <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()" autocomplete="off" [ngClass]="!isThakYou ? 'd-block' : 'd-none'">
+            <div class="healthPro-card-formContent">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="col-form-label">Name </label>
+                    <input type="text" class="form-control" placeholder="Name" formControlName="patientName">
+                    <div *ngIf="reviewForm.controls['patientName'].hasError('required') && submitted" class="text-danger error">Patient Name is required.</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="col-form-label">Clinician Name </label>
+                    <input type="text" class="form-control" placeholder="Clincian Name" formControlName="clinicianName">
+                    <div *ngIf="reviewForm.controls['clinicianName'].hasError('required') && submitted" class="text-danger error">Clinician Name is required.</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="col-form-label">Visited Date </label>
+                    <input type="text" class="form-control" placeholder="Date" formControlName="visitDate">
+                    <div *ngIf="reviewForm.controls['visitDate'].hasError('required') && submitted" class="text-danger error">Vist Date is required</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="col-form-label">Rating for clinician<span class="text-danger">*</span></label>
+                    <div>
+                      <star-rating size="35px" (rate)="onRate($event)" [value]="0" [totalstars]="5" checkedcolor="#f2cc00" uncheckedcolor="#999999"  [readonly]="false" style="display: inline-block"></star-rating>
+                      <div *ngIf="reviewForm.controls['rating'].hasError('required') && submitted" class="text-danger error">Rating is required</div>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label class="col-form-label">Review Description <span class="text-danger">*</span></label>
+                    <textarea class="form-control" name="reviewDesc" formControlName="reviewDesc"  rows="3"></textarea>
+                    <div *ngIf="reviewForm.controls['reviewDesc'].hasError('required') && submitted" class="text-danger error">Review Description is required.</div>
+
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block btn-radius">Submit</button>
+                  </div>
+                </div>
+
+                <!--<div class="col-12">
+                  <div class="text-center">
+                    <span class="info-text">Already have an account? <a class="btn-link" [routerLink]="['/login']">{{ 'Login here' | translate}}</a></span>
+                  </div>
+                </div>-->
+              </div>
+            </div>
+          </form>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

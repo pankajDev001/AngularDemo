@@ -1,0 +1,204 @@
+<div class="row page-header-wrapper shadow-sm">
+  <div class="col">
+    <h2 class="page-header">Dashboard</h2>
+  </div>
+  <div class="col-auto p-relative">
+    <button class="btn primary-gradient-btn btn-filter" (click)="onFilterToggle($event)"><span class="filter-text mr-2">FILTERS</span> <i class="fa fa-filter"></i></button>
+    <form class="page-header-filter" [class.active]="classApplied" [formGroup]="filterForm" (ngSubmit)="onSubmit()" autocomplete="off">
+      <div class="row">
+        <div class="col-auto">
+          <div class="form-group">
+              <label for="agencyName" class="col-form-label">Select Agency</label>
+              <ng-select class="ng-filter-control" [items]="agencies" bindLabel="agencyName" bindValue="agencyId" id="agencyName" formControlName="Agencies" placeholder="Select Agency"
+              [clearable]="false"></ng-select>
+          </div>
+        </div>
+
+        <div class="col-auto">
+          <div class="form-group">
+              <label for="clinicianName" class="col-form-label">Select Clinician</label>
+              <ng-select class="ng-filter-control" placeholder="Select Clinician" [items]="clinicians" bindLabel="fullName" bindValue="clinicianId" id="clinicianName" formControlName="Clinicians"
+              [clearable]="false"></ng-select>
+          </div>
+        </div>
+
+        <div class="col-auto">
+          <div class="form-group">
+            <label for="FromDate" class="col-form-label">From Date</label>
+            <div class="input-group filter-group">
+              <input type="text" tabindex="-1" class="form-control date" readonly ngbDatepicker #dpFromDate="ngbDatepicker" (dateSelect)="onFromDateSelection($event)"
+                placeholder="From" id="FromDate" formControlName="FromDate" value="{{newFromDate}}"
+                [minDate]="{year: year - 50 , month: month, day: day}"
+                [maxDate]="{year: year + 20 , month: month, day: day}"
+                >
+              <div class="input-group-append">
+                <button class="btn calendar" type="button" (click)="dpFromDate.toggle()">
+                  <i class="fa fa-calendar"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-auto">
+          <div class="form-group">
+            <label for="ToDate" class="col-form-label">To Date</label>
+            <div class="input-group filter-group">
+              <input type="text" tabindex="-1" class="form-control date" readonly ngbDatepicker #dpToDate="ngbDatepicker" (dateSelect)="onToDateSelection($event)" id="ToDate" formControlName="ToDate" placeholder="To" value="{{newToDate}}"
+              [minDate]="{year: year - 50 , month: month, day: day}"
+              [maxDate]="{year: year + 20 , month: month, day: day}"
+              >
+              <div class="input-group-append">
+                <button class="btn calendar" type="button" (click)="dpToDate.toggle()">
+                  <i class="fa fa-calendar"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col text-center">
+          <button type="submit" class="primary-gradient-btn">Submit</button>
+          <button type="button" class="btn btn-link btn-rounded" (click)="resetFilterForm()">Reset</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div [@routerTransition]>
+  <div class="total-section">
+    <div class="row d-flex justify-content-start align-items-stretch">
+      <div class="col-sm-6 col-md-4  col-xl mb-4" *ngFor="let total of dashboardCard">
+        <div class="card text-center h-100 mb-0">
+          <div class="card-header">{{total.key}}</div>
+          <div class="card-body">{{total.value}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-6 mb-4">
+      <div class="card h-100">
+        <div class="card-header d-flex justify-content-between">Recently Added Agencies
+          <a [routerLink]="['/agencies']" class="btn btn-primary btn-sm btn-radius d-none d-md-inline-block">View All</a>
+        </div>
+        <div class="card-body table-test-card">
+          <div class="hide-dt-search no-wrap-dt">
+            <table class="db-image-table" id="agency-table" datatable [dtOptions]="dtOptions" [dtTrigger]="agencydtTrigger">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Agency Name</th>
+                  <th>Type</th>
+                  <th>Owner</th>
+                  <th>Phone</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let agency of recentlyAddedAgency">
+                  <td>
+                    <div class="text-center avtar-img50">
+                      <img src="{{contentUrl}}{{agency.profileImage}}" class="rounded-circle" alt="" width="50">
+                    </div>
+                  </td>
+                  <td>{{agency.agencyName}}</td>
+                  <td>{{agency.agencyTypeName}}</td>
+                  <td>{{agency.contactPersonName}}</td>
+                  <td>{{agency.contactNo}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6 mb-4">
+      <div class="card h-100">
+        <div class="card-header d-flex justify-content-between">Recently Added Clinicians
+          <a [routerLink]="['/clinicians']" class="btn btn-primary btn-radius btn-sm d-none d-md-inline-block">view all</a>
+        </div>
+        <div class="card-body">
+          <div class="hide-dt-search no-wrap-dt">
+            <table class="db-image-table" id="clinician-table" datatable [dtOptions]="dtOptions" [dtTrigger]="cliniciandtTrigger">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Clinician Name</th>
+                  <th>Gender</th>
+                  <th>Phone</th>
+                  <th>Email</th>
+                  <th>B/G Check</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let clinician of recentlyAddedClinician">
+                  <td>
+                    <div class="text-center avtar-img50">
+                      <img src="{{contentUrl}}{{clinician.profileImage}}" class="rounded-circle" alt="" width="50">
+                    </div>
+                  </td>
+                  <td>{{clinician.fullName}}</td>
+                  <td>{{clinician.gender}}</td>
+                  <td>{{clinician.contactNo}}</td>
+                  <td>{{clinician.email | lowercase }}</td>
+                  <td>
+                    <span class="badge badge-success badge-pill" *ngIf="clinician.backgroudVerficationStatus">Done</span>
+                    <span class="badge badge-warning badge-pill" *ngIf="!clinician.backgroudVerficationStatus">Pending</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between">Recently Scheduled Visits
+          <a [routerLink]="['/scheduled-visits']" class="btn btn-primary btn-radius btn-sm d-none d-md-inline-block">view all</a>
+        </div>
+        <div class="card-body">
+          <div class="hide-dt-search no-wrap-dt">
+            <table id="scheduled-visits" datatable [dtOptions]="dtOptions" [dtTrigger]="scheduledtTrigger">
+              <thead>
+                <tr>
+                  <th scope="col">Agency Name</th>
+                  <th scope="col">Clinician Name</th>
+                  <th scope="col">Patient Name</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Service</th>
+                  <th scope="col">Visit Date</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let visit of recentlyScheduledVisit">
+                  <td>{{visit.agencyName}}</td>
+                  <td>{{visit.clinicianName}}</td>
+                  <td>{{visit.patientName}}</td>
+                  <td>{{visit.category}}</td>
+                  <td>{{visit.service}}</td>
+                  <td>{{visit.visitDate}} {{visit.visitTime}}</td>
+                  <td>
+                    <span *ngIf="visit.visitStatus === 'COMPLETED'" class="badge badge-success badge-pill">Completed</span>
+                    <span *ngIf="visit.visitStatus === 'ASSIGNED'" class="badge badge-secondary badge-pill">Assigned</span>
+                    <span *ngIf="visit.visitStatus === 'RESCHEDULED'" class="badge badge-caret badge-pill">Rescheduled</span>
+                    <span *ngIf="visit.visitStatus === 'CANCELLED'" class="badge badge-danger badge-pill">Cancelled</span>
+                    <span *ngIf="visit.visitStatus === 'SERVICE-PROVIDED'" class="badge badge-info badge-pill">Service Provided</span>
+                    <span *ngIf="visit.visitStatus === 'PENDING'" class="badge badge-warning badge-pill">Pending</span>
+                    <span *ngIf="visit.visitStatus === 'IN_PROGRESS'" class="badge badge-dark badge-pill">In-Progress</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

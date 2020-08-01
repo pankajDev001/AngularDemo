@@ -1,0 +1,190 @@
+<form [formGroup]="editClinicianForm" autocomplete="off">
+
+  <div class="modal-header">
+    <h4 class="modal-title">Edit Clinician: {{clinicianData ? clinicianData.fullName: ''}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <img src="assets/images/close.svg" alt="close icon" width="25">
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-container bg-white">
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <label class="col-form-label">First Name<span class="text-danger">*</span></label>
+            <input type="text" class="form-control input-underline input-lg" formControlName="firstName" placeholder="{{'First Name'}}" autocomplete="off" mask="S*">
+            <div *ngIf="!f.firstName.valid && (f.firstName.dirty  && submitted)">
+              <div *ngIf="f.firstName.errors?.required" class="text-danger error">First Name is required.</div>
+              <div *ngIf="f.firstName.errors?.pattern" class="text-danger error">First name invalid.</div>
+              <div *ngIf="f.firstName.errors?.minlength" class="text-danger error">First name is too short.</div>
+              <div *ngIf="f.firstName.errors?.maxlength" class="text-danger error">First Name should not be greater then 25 Characters.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="form-group">
+            <label class="col-form-label">Last Name<span class="text-danger">*</span></label>
+            <input type="text" class="form-control input-underline input-lg" formControlName="lastName" placeholder="{{'Last Name'}}" autocomplete="off"  mask="S*">
+            <div *ngIf="!f.lastName.valid && (f.lastName.dirty  && submitted)">
+              <div *ngIf="f.lastName.errors?.required" class="text-danger error">Last Name is required.</div>
+              <div *ngIf="f.lastName.errors?.pattern"  class="text-danger error">Last name invalid.</div>
+              <div *ngIf="f.firstName.errors?.minlength"  class="text-danger error">Last name is too short.</div>
+              <div *ngIf="f.lastName.errors?.maxlength" class="text-danger error">Last Name should not be greater then 25 Characters.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="form-group">
+            <label class="col-form-label">DOB<span class="text-danger">*</span></label>
+            <div class="input-group">
+              <input type="text" class="form-control input-underline input-lg date" placeholder="{{ 'DOB: (MM/DD/YYYY)' }}" ngbDatepicker
+                     (dateSelect)="onDateSelect($event)" #d="ngbDatepicker"   dateFormat="MM/dd/yyyy" formControlName="dob" value="{{date}}" readonly tabindex="-1"
+                     [minDate]="{year: year - 80 , month: month, day: day}"
+                     [maxDate]="{year: year - 15 , month: month, day: day}"
+                     >
+              <div class="input-group-append">
+                <button class="btn calendar" type="button" (click)="d.toggle()">
+                  <i class="fa fa-calendar"></i>
+                </button>
+              </div>
+            </div>
+
+            <div *ngIf="editClinicianForm.controls['dob'].hasError('required') && submitted" class="text-danger error">DOB is required.</div>
+
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label class="col-form-label">Gender<span class="text-danger">*</span></label>
+            <ng-select
+              id="Gender"
+              class="ng-select-control"
+              [items]="gender"
+              bindLabel="name"
+              bindValue="name"
+              placeholder="Select Gender"
+              [searchable]="false"
+              [clearable]="false"
+              formControlName="gender"
+            ></ng-select>
+
+            <div *ngIf="editClinicianForm.controls['gender'].hasError('required') && editClinicianForm.controls['gender'].touched" class="text-danger error">This field is required.</div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="form-group">
+            <label class="col-form-label" for="ContactNumber">Contact No<span class="text-danger">*</span></label>
+            <input type="text" class="form-control input-underline input-lg" [dropSpecialCharacters]="false" placeholder="Phone: (000-000-0000)" id="ContactNumber" formControlName="contactNo" mask="000-000-0000">
+
+            <div *ngIf="editClinicianForm.controls['contactNo'].hasError('required') && submitted" class="text-danger error">Contact Number is required.</div>
+            <div *ngIf="editClinicianForm.controls['contactNo'].hasError('pattern') && submitted" class="text-danger error">Only number is required.</div>
+            <div *ngIf="editClinicianForm.controls['contactNo'].hasError('minlength') || editClinicianForm.controls['contactNo'].hasError('maxlength') && submitted" class="text-danger error">Contact number should have 10 digits.</div>
+          </div>
+        </div>
+
+
+        <div class="col-6">
+          <div class="form-group">
+            <label class="col-form-label" for="ContactNumber">Alternate Contact No<span class="text-danger">*</span></label>
+            <input type="text" class="form-control input-underline input-lg" [dropSpecialCharacters]="false" placeholder="Phone: (000-000-0000)" id="alternateContactNo" formControlName="alternateContactNo" mask="000-000-0000">
+
+            <div *ngIf="editClinicianForm.controls['alternateContactNo'].hasError('required') && submitted" class="text-danger error">Alt. Contact Number is required.</div>
+            <div *ngIf="editClinicianForm.controls['alternateContactNo'].hasError('minlength') || editClinicianForm.controls['alternateContactNo'].hasError('maxlength') && submitted" class="text-danger error">Alt. Contact number should have 10 digits.</div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <label class="col-form-label" for="Address">Address Line<span class="text-danger">*</span></label>
+            <input type="text" class="form-control input-underline input-lg" placeholder="{{'Address'}}" id="Address" formControlName="addressLine">
+
+            <div *ngIf="editClinicianForm.controls['addressLine'].hasError('required') && submitted" class="text-danger error">Address is required.</div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label class="col-form-label" for="State">State<span class="text-danger">*</span></label>
+            <ng-select
+              id="State"
+              class="ng-select-control"
+              [items]="states"
+              bindLabel="value"
+              bindValue="id"
+              placeholder="Select State"
+              [clearable]="false"
+              formControlName="stateId"
+              (change)="onChangeState($event)"
+            ></ng-select>
+
+            <div *ngIf="editClinicianForm.controls['stateId'].hasError('required') && submitted" class="text-danger error">State is required.</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <label class="col-form-label" for="City">City<span class="text-danger">*</span></label>
+            <ng-select
+              id="City"
+              class="ng-select-control"
+              [items]="cities"
+              bindLabel="value"
+              bindValue="id"
+              placeholder="Select City"
+              [clearable]="false"
+              formControlName="cityId"
+              (change)="onChangeCity($event)"
+            ></ng-select>
+
+            <div *ngIf="editClinicianForm.controls['cityId'].hasError('required') && submitted" class="text-danger error">City is required.</div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label class="col-form-label" for="ZipCode">Zip Code<span class="text-danger">*</span></label>
+            <ng-select
+              id="ZipCode"
+              class="ng-select-control"
+              [items]="zipCodes"
+              bindLabel="value"
+              bindValue="value"
+              placeholder="Select Zipcode"
+              [clearable]="false"
+              formControlName="zipCode"
+            ></ng-select>
+
+            <div *ngIf="editClinicianForm.controls['zipCode'].hasError('required') && submitted" class="text-danger error">Zipcode is required.</div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="form-group">
+            <label class="col-form-label" for="patientTypeId">Patient Type<span class="text-danger">*</span></label>
+            <ng-select
+              id="patientTypeId"
+              class="ng-select-control"
+              [items]="patientTypeList"
+              bindLabel="value"
+              bindValue="id"
+              placeholder="Select PatientType"
+              [clearable]="false"
+              formControlName="patientTypeId"
+            ></ng-select>
+
+            <div *ngIf="editClinicianForm.controls['patientTypeId'].hasError('required') && submitted" class="text-danger error">Patient Type is required.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-link" (click)="close()">Cancel</button>
+    <button type="submit" class="primary-gradient-btn" (click)="onSubmit()">Update</button>
+  </div>
+</form>

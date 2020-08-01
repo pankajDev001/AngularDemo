@@ -1,0 +1,151 @@
+<div class="row page-header-wrapper shadow-sm">
+  <div class="col">
+    <h2 class="page-header">Agencies</h2>
+  </div>
+  <div class="col-auto p-relative">
+    <button class="btn primary-gradient-btn btn-filter" (click)="onFilterToggle($event)"><span class="filter-text mr-2">FILTERS</span> <i class="fa fa-filter"></i></button>
+    <form class="page-header-filter" [class.active]="classApplied" [formGroup]="agencyFilterForm" (ngSubmit)="filterAgencies()" autocomplete="off">
+      <div class="row">
+        <div class="col-auto">
+
+         <div class="form-group">
+            <label class="col-form-label" for="agencyName">Agency Name</label>
+            <input type="text" id="agencyName" formControlName="name" placeholder="Search Agency" class="form-control filter-control">
+         </div>
+        </div>
+        <div class="col-auto">
+          <div class="form-group">
+              <label for="agencySpeciality" class="col-form-label">Agency Speciality</label>
+              <ng-select class="ng-filter-control" [items]="agencySpecialities" bindLabel="value" bindValue="id" id="agencySpeciality" formControlName="agencySpecialityValues" placeholder="Search By Agency Speciality"
+              [clearable]="false"></ng-select>
+          </div>
+        </div>
+        <div class="col-auto">
+          <div class="form-group">
+              <label for="agencySort" class="col-form-label">Sort By</label>
+              <ng-select class="ng-filter-control" [items]="agencySort" bindLabel="sortValue" bindValue="sortKey" id="agencySort" formControlName="agencySortValues" placeholder="Sort By"
+              [clearable]="false"></ng-select>
+          </div>
+        </div>
+        <div class="col text-center">
+          <button type="submit" class="primary-gradient-btn" [disabled]="!agencyFilterForm.valid">Search</button>
+          <button type="button" class="btn btn-link btn-rounded ml-3" (click)="resetFilterForm()">Reset</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div [@routerTransition]>
+  <div class="clinician-summary-section">
+    <div class="row justify-content-end">
+      <div class="col-xl-8 col-xxl-6">
+        <div class="row small-summary-section">
+
+              <div class="col-12 col-md mb-4">
+                <div class="card mb-0 cursor-pointer" (click)="getActiveInactiveAgencies()">
+                  <div class="card-body">
+                    <span class="counters">{{listCounts.total}}</span> Total Agencies</div>
+                </div>
+              </div>
+              <div class="col-12 col-md mb-4">
+                <div class="card mb-0 cursor-pointer" (click)="getActiveInactiveAgencies(true)">
+                  <div class="card-body">
+                    <span class="counters text-success">{{listCounts.totalActive}}</span> Active Agencies</div>
+                </div>
+              </div>
+              <div class="col-12 col-md mb-4">
+                <div class="card mb-0 cursor-pointer" (click)="getActiveInactiveAgencies(false)">
+                  <div class="card-body">
+                    <span class="counters text-danger">{{listCounts.totalInActive}}</span> Inactive Agencies</div>
+                </div>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-md-6 col-xxl-4 mb-4" *ngFor="let agency of agencies | paginate: { itemsPerPage: pageSize, currentPage: p, totalItems : totalDataCount }">
+      <div class="card user-card user-card-1 mb-0 h-100">
+        <div class="card-header d-flex justify-content-between">
+          <div>
+            <div class="active-inactive"  *ngIf="user?.role === 'SUPER_ADMIN' || isEditPermission">
+              <label class="switch">
+                <input type="checkbox" [checked]="agency.active" (change)="changeStatus($event)" [id]="agency.userId">
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+          <div class="actions-wrapper">
+
+            <!-- <div class="select-icon">
+              <a>
+                <div class="select-checkbox-wrapper">
+                  <label class="select-checkbox">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+              </a>
+            </div> -->
+            <div class="view">
+                <a (click)="agencyDetail(agency.userId,agency.agencyId)" placement="top" ngbTooltip="View">
+                  <div class="icon-wrapper">
+                    <i class="fa fa-eye"></i>
+                  </div>
+                </a>
+              </div>
+            <div class="edit" *ngIf="user?.role === 'SUPER_ADMIN' || isEditPermission">
+              <a (click)="editAgency(agency.userId)" placement="top" ngbTooltip="Edit">
+                <div class="icon-wrapper">
+                  <i class="fa fa-pencil"></i>
+                </div>
+              </a>
+            </div>
+
+            <div class="delete"  *ngIf="user?.role === 'SUPER_ADMIN' || isDeletePermission">
+              <a (click)="deleteAgency(agency.userId)" placement="top" ngbTooltip="Delete">
+                  <div class="icon-wrapper">
+                    <i class="fa fa-trash"></i>
+                  </div>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body" >
+          <div class="user-details d-flex">
+            <div class="user-avatar-section">
+              <img src="{{contentUrl}}{{agency.profileImage}}" alt="" width="80" class="rounded-circle">
+            </div>
+            <div class="user-avatar-details">
+              <div class="name-text-style">{{agency.agencyName}}</div>
+              <div class="reviews-text-style">
+                <span class="ml-0"  (click)="onRate($event,agency)">
+                    <star-rating [value]="agency.averageRating" [totalstars]="5" checkedcolor="#f2cc00" uncheckedcolor="#999999" size="19" [readonly]="true"
+                    style="display: inline-block"></star-rating>
+                <span class="ml-1">({{agency.averageRating}} / {{agency.totalRatings}} Reviews)</span>
+                          </span>
+              </div>
+              <div class="contact-text-style">
+                <span>Phone: {{agency.contactNo}}</span>
+                <span>Email: {{agency.email | lowercase}}</span>
+              </div>
+              <div class="address-text-style">Address: {{agency.addressLine}}, {{agency.city}}, {{agency.stateCode? agency.stateCode : agency.state}}, {{agency.zipCode}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="agencies?.length === 0 && loading === false">
+    <h3 class="text-center">No Records Found.</h3>
+  </div>
+
+  <div *ngIf="agencies?.length == 0 && loading">
+    <h3 class="text-center">Loading....</h3>
+  </div>
+
+  <pagination-controls *ngIf="totalDataCount > 0" (pageChange)="p = $event" (pageChange)="pageChanged($event)" style="float: right;"></pagination-controls>
+</div>

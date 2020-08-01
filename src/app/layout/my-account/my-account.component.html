@@ -1,0 +1,570 @@
+<div class="row page-header-wrapper shadow-sm">
+  <div class="col-12">
+    <h2 class="page-header">My Account</h2>
+  </div>
+</div>
+
+<div [@routerTransition]>
+  <div class="row mb-4">
+    <div class="col-xl-6 mb-4 mb-xl-0">
+      <div class="card user-card user-details-card my-account-card header-with-border mb-0 h-100">
+        <div class="card-header">My Account Details</div>
+        <div class="card-body">
+          <div class="account-sections">
+            <div class="left-section">
+              <div class="avatar-section">
+                <input
+                  type="file"
+                  #selectFile
+                  (change)="onFileSelect($event)"
+                  style="display: none;"
+                >
+                <div class="update-image-wrapper" (click)="selectFile.click()">
+                  <img src="{{contentUrl}}{{userDetails.profileImage}}" alt="Avtar" width="80"  class="cursor rounded-circle" title="Update Profile Image" *ngIf="userDetails.profileImage">
+
+                  <div class="uploadIcon cursor-pointer"><i class="fa fa-camera" aria-hidden="true"></i></div>
+                </div>
+              </div>
+            </div>
+            <div class="right-section" *ngIf="userRole?.role != 'AGENCY'">
+            <div class="name mb-2">{{userDetails.firstName}} {{userDetails.lastName}}</div>
+            <div class="info-text mb-1"><span class="font-weight-bold">Gender: </span><span>{{userDetails.gender}}</span></div>
+            <div class="info-text mb-1"><span class="font-weight-bold">Date of Birth: </span><span>{{userDetails.dob}}</span></div>
+            <div class="info-text mb-1"><span class="font-weight-bold">Job Title: </span><span>{{userDetails.jobTitle}}</span></div>
+            <div class="info-text mb-1"><span class="font-weight-bold">Phone: </span><span>{{userDetails.contactNo}}</span></div>
+            <div class="info-text mb-1"><span class="font-weight-bold">Email: </span><span>{{userDetails.email | lowercase }}</span></div>
+          </div>
+          <div class="right-section" *ngIf="userRole?.role == 'AGENCY'">
+            <div class="name mb-2">{{userDetails.agencyName}}</div>
+            <div class="info-text mb-1"><span class="font-weight-bold">Agency Type: </span><span>{{userDetails.agencyType}}</span></div>
+            <div class="info-text mb-1"><span class="font-weight-bold">Phone: </span><span>{{userDetails.contactNo}}</span></div>
+            <div class="info-text mb-1"><span class="font-weight-bold">Email: </span><span>{{userDetails.email | lowercase}}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-6">
+    <div class="card user-card user-details-card my-account-card header-with-border mb-0 h-100">
+      <div class="card-header d-flex justify-content-between">
+        Change Password
+        <div class="actions-wrapper">
+          <div class="edit">
+            <a class="ng-tns-c6-2"  placement="top" ngbTooltip="Edit Password" (click)="toggleChangePasswordForm()">
+              <div class="icon-wrapper">
+                <i class="fa fa-pencil"></i>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="changePassword" (ngSubmit)="changePasswordSubmit()" autocomplete="off">
+          <div class="update-form">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="col-form-label">Old Password<span class="text-danger">*</span></label>
+                  <div class="password">
+                    <input [type]="fieldTextType ? 'text' : 'password'" class="form-control" formControlName="oldPassword" autocomplete="off">
+                    <i class="fa fa-password" [ngClass]="!fieldTextType ? 'fa-eye' :'fa-eye-slash'" (click)="onOldPassword()"></i>
+                  </div>
+                  <div *ngIf="changePassword.controls['oldPassword'].hasError('required') && submitted1" class="text-danger error">Old password is required.</div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="col-form-label">New Password<span class="text-danger">*</span></label>
+                  <div class="password">
+                    <input [type]="fieldTextType2 ? 'text' : 'password'" class="form-control" formControlName="Password" autocomplete="off">
+                    <i class="fa fa-password" [ngClass]="!fieldTextType2 ? 'fa-eye' :'fa-eye-slash'" (click)="onNewPassword()"></i>
+                  </div>
+
+                  <div *ngIf="changePassword.controls['Password'].hasError('required') && submitted1" class="text-danger error">New password is required.</div>
+                  <div *ngIf="changePassword.controls['Password'].hasError('pattern') && submitted1" class="text-danger error">Password must be 8 Characters long and must contain at least one upper case character, one lowercase character, one number and one alphanumeric character.</div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="col-form-label">Confirm Password<span class="text-danger">*</span></label>
+                  <div class="password">
+                    <input [type]="fieldTextType3 ? 'text' : 'password'" class="form-control" formControlName="ConfirmPassword" autocomplete="off">
+                    <i class="fa fa-password" [ngClass]="!fieldTextType3 ? 'fa-eye' :'fa-eye-slash'" (click)="onConfirmPassword()"></i>
+                  </div>
+
+                  <div *ngIf="changePassword.controls['ConfirmPassword'].hasError('required') && submitted1" class="text-danger error">Confirm Password is required.</div>
+                  <div *ngIf="changePassword.controls['ConfirmPassword'].dirty && changePassword.hasError('mismatchedPasswords') && !changePassword.controls['ConfirmPassword'].hasError('required') && submitted1" class="text-danger error">Password don't match.</div>
+                </div>
+              </div>
+              <div class="col-12">
+                <button type="submit" [disabled]="disableChangePassword" class="primary-gradient-btn">Save & Update</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12" *ngIf="userRole?.role != 'AGENCY'">
+    <form [formGroup]="editAccountForm" (ngSubmit)="editFormSubmit()">
+      <div class="card user-card user-details-card my-account-card header-with-border">
+        <div class="edit-account-details">
+          <div class="card-header d-flex justify-content-between">Account Details
+            <div class="actions-wrapper">
+              <div class="edit">
+                <a class="ng-tns-c6-2"  placement="top" ngbTooltip="Edit Details" (click)="toggleEditForm()">
+                  <div class="icon-wrapper">
+                    <i class="fa fa-pencil"></i>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="update-form">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="col-form-label">First Name<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="FirstName" mask="S*">
+
+                    <div *ngIf="editAccountForm.controls['FirstName'].hasError('required') && submitted" class="text-danger error">First name is required.</div>
+                    <div *ngIf="editAccountForm.controls['FirstName'].hasError('pattern') && submitted" class="text-danger error">First name is invalid.</div>
+                    <div *ngIf="editAccountForm.controls['FirstName'].hasError('minlength') && submitted" class="text-danger error">First name is too short.</div>
+                    <div *ngIf="editAccountForm.controls['FirstName'].hasError('maxlength') && submitted" class="text-danger error">First name should not be greater then 25 Characters.</div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="col-form-label">Last Name<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="LastName" mask="S*">
+
+                    <div *ngIf="editAccountForm.controls['LastName'].hasError('required') && submitted" class="text-danger error">Last name is required.</div>
+                    <div *ngIf="editAccountForm.controls['LastName'].hasError('pattern') && submitted" class="text-danger error">last name is invalid.</div>
+                    <div *ngIf="editAccountForm.controls['LastName'].hasError('minlength') && submitted" class="text-danger error">Last name is too short.</div>
+                    <div *ngIf="editAccountForm.controls['LastName'].hasError('maxlength') && submitted" class="text-danger error">Last name should not be greater then 25 Characters.</div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="col-form-label">Gender<span class="text-danger">*</span></label>
+                    <ng-select
+                      id="Gender"
+                      class="ng-select-control"
+                      [items]="gender"
+                      bindLabel="name"
+                      bindValue="name"
+                      placeholder="Select Gender"
+                      [searchable]="false"
+                      [clearable]="false"
+                      formControlName="Gender"
+                    ></ng-select>
+
+                    <div *ngIf="editAccountForm.controls['Gender'].hasError('required') && submitted" class="text-danger error">Gender is required.</div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="col-form-label">Date of Birth<span class="text-danger">*</span></label>
+                    <div class="input-group">
+                      <input type="text" class="form-control date" formControlName="DOB" placeholder="{{ 'DOB: MM/DD/YYYY' }}" ngbDatepicker #d="ngbDatepicker" readonly>
+                      <div class="input-group-append">
+                        <button class="btn calendar" type="button" [disabled]="!disable" (click)="d.toggle()">
+                          <i class="fa fa-calendar"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="col-form-label">Email<span class="text-danger">*</span></label>
+                    <input type="email" class="form-control" formControlName="Email">
+                    <div *ngIf="editAccountForm.controls['Email'].hasError('required') && submitted" class="text-danger error">This field is required.</div>
+                    <div *ngIf="(editAccountForm.controls['Email'].hasError('email') || editAccountForm.controls['Email'].hasError('pattern')) && submitted" class="text-danger error">Email Address is invalid.</div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="col-form-label">Phone<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="ContactNo" mask="000-000-0000" [dropSpecialCharacters]="false">
+                    <div *ngIf="editAccountForm.controls['ContactNo'].hasError('required') && submitted" class="text-danger error">This field is required.</div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="col-form-label">Job Title<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="JobTitle" mask="S* S* S* S* S*" [dropSpecialCharacters]="false" >
+
+                    <div *ngIf="editAccountForm.controls['JobTitle'].hasError('required') && submitted" class="text-danger error">This field is required.</div>
+                    <div *ngIf="editAccountForm.controls['JobTitle'].hasError('pattern') && submitted" class="text-danger error">Job Title is invalid.</div>
+                    <div *ngIf="editAccountForm.controls['JobTitle'].hasError('minlength') && submitted" class="text-danger error">Job Title is too short.</div>
+                    <div *ngIf="editAccountForm.controls['JobTitle'].hasError('maxlength') && submitted" class="text-danger error">Job Title should not be greater then 25 Characters.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="edit-bank-details mt-3">
+          <div class="card-header">Bank Details</div>
+          <div class="card-body">
+            <div class="update-form">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="col-form-label">Account Holder Name<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="AccountHolderName" mask="S* S* S* S* S* S* S* S*" [dropSpecialCharacters]="false">
+                    <div *ngIf="editAccountForm.controls['AccountHolderName'].hasError('required') && submitted" class="text-danger error">Account holder name is required.</div>
+                    <div *ngIf="editAccountForm.controls['AccountHolderName'].hasError('pattern') && submitted" class="text-danger error">Account holder name is invalid.</div>
+                    <div *ngIf="editAccountForm.controls['AccountHolderName'].hasError('minlength') && submitted" class="text-danger error">Account holder name is too short.</div>
+                    <div *ngIf="editAccountForm.controls['AccountHolderName'].hasError('maxlength') && submitted" class="text-danger error">Account holder name should not be greater then 25 Characters.</div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="col-form-label">Routing Number<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="RoutingNumber" mask="000000000">
+
+                    <div *ngIf="editAccountForm.controls['RoutingNumber'].hasError('required') && submitted" class="text-danger error">Routing number is required.</div>
+                    <div *ngIf="editAccountForm.controls['RoutingNumber'].hasError('pattern') && submitted" class="text-danger error">Routing number must have 9 digits.</div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="col-form-label">Account Number<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="AccountNumber" mask="000000000000">
+
+                    <div *ngIf="editAccountForm.controls['AccountNumber'].hasError('required') && submitted" class="text-danger error">Account number is required.</div>
+                    <div *ngIf="editAccountForm.controls['AccountNumber'].hasError('pattern') && submitted" class="text-danger error">Account number must have 12 digits.</div>
+                  </div>
+                </div>
+                
+                <!-- <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="col-form-label">SWIFT/BIC code<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="Code">
+
+                    <div *ngIf="editAccountForm.controls['Code'].hasError('required') && submitted" class="text-danger error">SWIFT/BIC code is required.</div>
+                    <div *ngIf="editAccountForm.controls['Code'].hasError('pattern') && submitted" class="text-danger error">SWIFT/BIC code includes Capital letters or numbers or combination of both.</div>
+                    <div *ngIf="editAccountForm.controls['Code'].hasError('minlength') || editAccountForm.controls['Code'].hasError('maxlength')" class="text-danger error">SWIFT/BIC code should have length of 8 or 11.</div>
+                  </div>
+                </div> -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="col-form-label">Bank Name<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="BankName" mask="S* S* S* S* S* S* S* S*" [dropSpecialCharacters]="false">
+                    <div *ngIf="editAccountForm.controls['BankName'].hasError('required') && submitted" class="text-danger error">Bank name is required.</div>
+                    <div *ngIf="editAccountForm.controls['BankName'].hasError('pattern') && submitted" class="text-danger error">Bank name is invalid.</div>
+                    <div *ngIf="editAccountForm.controls['BankName'].hasError('minlength') && submitted" class="text-danger error">Bank name is too short.</div>
+                    <div *ngIf="editAccountForm.controls['BankName'].hasError('maxlength') && submitted" class="text-danger error">Bank name should not be greater then 25 characters.</div>
+                  </div>
+                </div>
+                <!-- <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="col-form-label">Bank Address<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="BankAddress">
+
+                    <div *ngIf="editAccountForm.controls['BankAddress'].hasError('required') && submitted" class="text-danger error">Bank address is required.</div>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="edit-fees mt-3">
+          <div class="card-header d-flex justify-content-between">Fees Structure</div>
+          <div class="card-body">
+            <div class="update-form">
+              <div class="row">
+                <div class="col-md-6">
+                  <h6 class="sub-title">Agency Processing Fee <small><i>(Applicable whichever is greater)</i></small></h6>
+                  <div class="row">
+                    <div class="col-5">
+                      <div class="form-group">
+                        <label class="col-form-label">Min Base Fee($)<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" formControlName="AgencyFeeAmt" mask="0*00" [dropSpecialCharacters]="false">
+                        <div *ngIf="editAccountForm.controls['AgencyFeeAmt'].hasError('required') && submitted" class="text-danger error">Min base is required.</div>
+                        <div *ngIf="editAccountForm.controls['AgencyFeeAmt'].hasError('pattern') && submitted" class="text-danger error">Agency fees is invalid.</div>
+                      </div>
+                    </div>
+                    <div class="col-2 align-self-center text-center">
+                      <label class="col-form-label mt-3">OR</label>
+                    </div>
+                    <div class="col-5">
+                      <div class="form-group">
+                        <label class="col-form-label">Min Base Fee(%)<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" formControlName="AgencyFeePerCentage" mask="0*.0*" [dropSpecialCharacters]="false">
+                        <div *ngIf="editAccountForm.controls['AgencyFeePerCentage'].hasError('required') && submitted" class="text-danger error">Min base is required.</div>
+                        <div *ngIf="editAccountForm.controls['AgencyFeePerCentage'].hasError('pattern') && submitted" class="text-danger error">Fees should not be greater than 100%.</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <h6 class="sub-title">Clinician Processing Fee <small><i>(Applicable whichever is greater)</i></small></h6>
+                  <div class="row">
+                    <div class="col-5">
+                      <div class="form-group">
+                        <label class="col-form-label">Min Base Fee($)<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" formControlName="ClinicianFeeAmt" mask="0*00" [dropSpecialCharacters]="false">
+                        <div *ngIf="editAccountForm.controls['ClinicianFeeAmt'].hasError('required') && submitted" class="text-danger error">Min base is required.</div>
+                        <div *ngIf="editAccountForm.controls['ClinicianFeeAmt'].hasError('pattern') && submitted" class="text-danger error">Clinician fees is invalid.</div>
+                      </div>
+                    </div>
+                    <div class="col-2 align-self-center text-center">
+                      <label class="col-form-label mt-3">OR</label>
+                    </div>
+                    <div class="col-5">
+                      <div class="form-group">
+                        <label class="col-form-label">Min Base Fee(%)<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" formControlName="ClinicianFeePerCentage" mask="0*.0*" [dropSpecialCharacters]="false">
+                        <div *ngIf="editAccountForm.controls['ClinicianFeePerCentage'].hasError('required') && submitted" class="text-danger error">Min base is required.</div>
+                        <div *ngIf="editAccountForm.controls['ClinicianFeePerCentage'].hasError('pattern') && submitted" class="text-danger error">Fees should not be greater than 100%.</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col-12">
+            <button type="submit" class="primary-gradient-btn" [disabled]="!disable">Save & Update</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="col-12" *ngIf="userRole?.role == 'AGENCY'">
+    <form [formGroup]="editAgencyForm" (ngSubmit)="editAgencyFormSubmit()">
+      <div class="card user-card user-details-card my-account-card header-with-border">
+        <div class="edit-account-details">
+          <div class="card-header d-flex justify-content-between">Account Details
+            <div class="actions-wrapper">
+              <div class="edit">
+                <a class="ng-tns-c6-2" placement="left" ngbTooltip="Edit" (click)="toggleEditForm()">
+                  <div class="icon-wrapper">
+                    <i class="fa fa-pencil"></i>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="update-form">
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label class="col-form-label">Agency Name<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="Agency Name" formControlName="agencyName" mask="S* S* S* S* S* S* S* S*" [dropSpecialCharacters]="false">
+
+                    <div *ngIf="editAgencyForm.controls['agencyName'].hasError('required') && submitted" class="text-danger error">Agency Name is required.</div>
+                    <div *ngIf="editAgencyForm.controls['agencyName'].hasError('pattern') && submitted" class="text-danger error">Agency Name is invalid.</div>
+                    <div *ngIf="editAgencyForm.controls['agencyName'].hasError('minlength') && submitted" class="text-danger error">Agency Name is too short.</div>
+                    <div *ngIf="editAgencyForm.controls['agencyName'].hasError('maxlength') && submitted" class="text-danger error">Agency Name should not be greater then 25 Characters.</div>
+
+                  </div>
+                </div>
+
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label class="col-form-label">Agency Type<span class="text-danger">*</span></label>
+                    <ng-select
+                      class="ng-select-control"
+                      [items]="agenciesType"
+                      bindLabel="value"
+                      placeholder="Select Agency Type"
+                      [clearable]="false"
+                      formControlName="agencyTypeId"
+                    ></ng-select>
+
+                    <div *ngIf="editAgencyForm.controls['agencyTypeId'].hasError('required') && submitted" class="text-danger error">Agency Type is required.</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label class="col-form-label">Contact Person Name<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="Contact person name" formControlName="contactPersonName" mask="S* S* S* S* S* S* S* S*" [dropSpecialCharacters]="false">
+
+                    <div *ngIf="editAgencyForm.controls['contactPersonName'].hasError('required') && submitted" class="text-danger error">Contact Person Name is required.</div>
+                    <div *ngIf="editAgencyForm.controls['contactPersonName'].hasError('pattern') && submitted" class="text-danger error">Contact Person Name is invalid.</div>
+                    <div *ngIf="editAgencyForm.controls['contactPersonName'].hasError('minlength') && submitted" class="text-danger error">Agency Name is too short.</div>
+                    <div *ngIf="editAgencyForm.controls['contactPersonName'].hasError('maxlength') && submitted" class="text-danger error">Agency Name should not be greater then 25 Characters.</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label class="col-form-label">Phone<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="Phone: (000-000-0000)" [dropSpecialCharacters]="false" formControlName="contactNo" mask="000-000-0000">
+
+                    <div *ngIf="editAgencyForm.controls['contactNo'].hasError('required') && submitted" class="text-danger error">Phone number is required.</div>
+                    <div *ngIf="editAgencyForm.controls['contactNo'].hasError('pattern')" class="text-danger error">Only number is required.</div>
+                    <div *ngIf="editAgencyForm.controls['contactNo'].hasError('minlength') || editAgencyForm.controls['contactNo'].hasError('maxlength') && submitted" class="text-danger error">Phone number should have 10 digits.</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label class="col-form-label">Fax<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="FAX: (000-000-0000)" [dropSpecialCharacters]="false" formControlName="fax" mask="000-000-0000">
+
+                    <div *ngIf="editAgencyForm.controls['fax'].hasError('required') && submitted" class="text-danger error">Fax number is required.</div>
+                    <div *ngIf="editAgencyForm.controls['fax'].hasError('pattern')" class="text-danger error">Fax number is required.</div>
+                    <div *ngIf="editAgencyForm.controls['fax'].hasError('minlength') || editAgencyForm.controls['fax'].hasError('maxlength') && submitted" class="text-danger error">Fax number should have 10 digits.</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label class="col-form-label">Address Line<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="Address Line" formControlName="addressLine">
+
+                    <div *ngIf="editAgencyForm.controls['addressLine'].hasError('required') && submitted" class="text-danger error">Address Line is required.</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label class="col-form-label">State<span class="text-danger">*</span></label>
+                    <ng-select
+                      class="ng-select-control"
+                      placeholder="Select State"
+                      [items]="states"
+                      bindLabel="value"
+                      (change)="getCityList($event)"
+                      [clearable]="false"
+                      formControlName="stateId"
+                    ></ng-select>
+
+                    <div *ngIf="editAgencyForm.controls['stateId'].hasError('required') && submitted" class="text-danger error">State is required.</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label class="col-form-label">City<span class="text-danger">*</span></label>
+                    <ng-select
+                      class="ng-select-control"
+                      placeholder="Select City"
+                      [clearable]="false"
+                      [items]="cities"
+                      bindLabel="value"
+                      (change)="getZipcodeList($event)"
+                      formControlName="cityId"
+                    ></ng-select>
+
+                    <div *ngIf="editAgencyForm.controls['cityId'].hasError('required') && submitted" class="text-danger error">City is required.</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label class="col-form-label">Zipcode<span class="text-danger">*</span></label>
+                    <ng-select
+                      class="ng-select-control"
+                      placeholder="Select Zipcode"
+                      [clearable]="false"
+                      [items]="zipcodes"
+                      bindLabel="value"
+                      [searchable]="false"
+                      formControlName="zipCode"
+                    ></ng-select>
+
+                    <div *ngIf="editAgencyForm.controls['zipCode'].hasError('required') && submitted" class="text-danger error">Zipcode is required.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="edit-bank-details mt-3">
+          <div class="card-header">Bank Details</div>
+          <div class="card-body">
+            <div class="update-form">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="col-form-label">Account Holder Name<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="accountHolderName" mask="S* S* S* S* S* S* S* S*" [dropSpecialCharacters]="false">
+                    <div *ngIf="editAgencyForm.controls['accountHolderName'].hasError('required') && submitted" class="text-danger error">Account holder name is required.</div>
+                    <div *ngIf="editAgencyForm.controls['accountHolderName'].hasError('pattern') && submitted" class="text-danger error">Account holder name is invalid.</div>
+                    <div *ngIf="editAgencyForm.controls['accountHolderName'].hasError('minlength') && submitted" class="text-danger error">Account holder is too short.</div>
+                    <div *ngIf="editAgencyForm.controls['accountHolderName'].hasError('maxlength') && submitted" class="text-danger error">Account holder should not be greater then 25 Characters.</div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="col-form-label">Routing Number<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="routingNumber" mask="000000000">
+
+                    <div *ngIf="editAgencyForm.controls['routingNumber'].hasError('required') && submitted" class="text-danger error">Routing number is required.</div>
+                    <div *ngIf="editAgencyForm.controls['routingNumber'].hasError('pattern') && submitted" class="text-danger error">Routing number must have 9 digits.</div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="col-form-label">Account Number<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="accountNumber" mask="000000000000" >
+
+                    <div *ngIf="editAgencyForm.controls['accountNumber'].hasError('required') && submitted" class="text-danger error">Account number is required.</div>
+                    <div *ngIf="editAgencyForm.controls['accountNumber'].hasError('pattern') && submitted" class="text-danger error">Account number must have 12 digits.</div>
+                  </div>
+                </div>
+                
+                <!-- <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="col-form-label">SWIFT/BIC code<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="swift_BicCode">
+
+                    <div *ngIf="editAgencyForm.controls['swift_BicCode'].hasError('required') && submitted" class="text-danger error">SWIFT/BIC code is required.</div>
+                    <div *ngIf="editAgencyForm.controls['swift_BicCode'].hasError('pattern') && submitted" class="text-danger error">SWIFT/BIC code includes Capital letters or numbers or combination of both.</div>
+                    <div *ngIf="editAgencyForm.controls['swift_BicCode'].hasError('minlength') || editAgencyForm.controls['swift_BicCode'].hasError('maxlength')" class="text-danger error">SWIFT/BIC code should have length of 8 or 11.</div>
+                  </div>
+                </div> -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="col-form-label">Bank Name<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="bankName" mask="S* S* S* S* S* S* S* S*" [dropSpecialCharacters]="false">
+                    <div *ngIf="editAgencyForm.controls['bankName'].hasError('required') && submitted" class="text-danger error">Bank name is required.</div>
+                    <div *ngIf="editAgencyForm.controls['bankName'].hasError('pattern') && submitted" class="text-danger error">Bank name is invalid.</div>
+                    <div *ngIf="editAgencyForm.controls['bankName'].hasError('minlength') && submitted" class="text-danger error">Bank name is too short.</div>
+                    <div *ngIf="editAgencyForm.controls['bankName'].hasError('maxlength') && submitted" class="text-danger error">Bank name should not be greater then 25 characters.</div>
+                  </div>
+                </div>
+                <!-- <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="col-form-label">Bank Address<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="bankAddress">
+
+                    <div *ngIf="editAgencyForm.controls['bankAddress'].hasError('required') && submitted" class="text-danger error">Bank address is required.</div>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col-12">
+            <button type="submit" class="primary-gradient-btn" [disabled]="!disable">Save & Update</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</div>

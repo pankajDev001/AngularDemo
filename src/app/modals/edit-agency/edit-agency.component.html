@@ -1,0 +1,195 @@
+<form [formGroup]="EditAgencyForm" (ngSubmit)="onSubmit()" autocomplete="off">
+  <div class="modal-header">
+    <h4 class="modal-title">Edit Agency: {{agency ? agency.agencyName : ''}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <img src="assets/images/close.svg" alt="close icon" width="25">
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-container bg-white">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label class="col-form-label" for="AgencyName">Agency Name<span class="text-danger">*</span></label>
+            <input type="text" class="form-control input-underline input-lg" placeholder="{{'Agency Name'}}" id="AgencyName" formControlName="AgencyName">
+
+            <div *ngIf="EditAgencyForm.controls['AgencyName'].hasError('required') && submitted" class="text-danger error">Agency name is required.</div>
+            <div *ngIf="EditAgencyForm.controls['AgencyName'].hasError('pattern') && submitted" class="text-danger error">Agency name invalid.</div>
+            <div *ngIf="EditAgencyForm.controls['AgencyName'].hasError('minlength') && submitted" class="text-danger error">Agency name is too short.</div>
+            <div *ngIf="EditAgencyForm.controls['AgencyName'].hasError('maxlength') && submitted" class="text-danger error">Agency Name should not be greater then 25 Characters.</div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label class="col-form-label" for="AgencyType">Agency Type<span class="text-danger">*</span></label>
+            <ng-select
+              id="AgencyType"
+              class="ng-select-control"
+              [items]="agencyTypes"
+              bindLabel="value"
+              bindValue="id"
+              placeholder="Select Agency Type"
+              [clearable]="false"
+              formControlName="AgencyType"
+              [searchable]="false"
+            ></ng-select>
+
+            <div *ngIf="EditAgencyForm.controls['AgencyType'].hasError('required') && submitted" class="text-danger error">Agency Type is required.</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label class="col-form-label" for="ContactPersonName">Contact Person Name<span class="text-danger">*</span></label>
+            <input id="ContactPersonName" type="text" class="form-control input-underline input-lg" placeholder="{{'Contact Person Name'}}" formControlName="ContactPersonName">
+
+            <div *ngIf="EditAgencyForm.controls['ContactPersonName'].hasError('required') && submitted" class="text-danger error">Contact Person is required.</div>
+            <div *ngIf="EditAgencyForm.controls['ContactPersonName'].hasError('pattern') && submitted" class="text-danger error">Contact Person is invalid.</div>
+            <div *ngIf="EditAgencyForm.controls['ContactPersonName'].hasError('minlength') && submitted" class="text-danger error">Contact Person name is too short.</div>
+            <div *ngIf="EditAgencyForm.controls['ContactPersonName'].hasError('maxlength') && submitted" class="text-danger error">Contact Person Name should not be grater then 25 Characters.</div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label class="col-form-label" for="ContactNumber">Phone No<span class="text-danger">*</span></label>
+            <input type="text" class="form-control input-underline input-lg" placeholder="Phone: (000-000-0000)" id="ContactNumber" formControlName="ContactNumber"  mask="000-000-0000">
+
+            <div *ngIf="EditAgencyForm.controls['ContactNumber'].hasError('required') && submitted" class="text-danger error">Contact Number is required.</div>
+            <div *ngIf="EditAgencyForm.controls['ContactNumber'].hasError('pattern') && submitted" class="text-danger error">Only number is required.</div>
+            <div *ngIf="(EditAgencyForm.controls['ContactNumber'].hasError('minlength') || EditAgencyForm.controls['ContactNumber'].hasError('maxlength')) && submitted" class="text-danger error">Contact number should have 10 digits.</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label class="col-form-label" for="Fax">Fax No<span class="text-danger">*</span></label>
+            <input type="text" class="form-control input-underline input-lg" placeholder="FAX: (000-000-0000)" id="Fax" formControlName="Fax" mask="000-000-0000">
+
+            <div *ngIf="EditAgencyForm.controls['Fax'].hasError('required') && submitted" class="text-danger error">Fax is required.</div>
+            <div *ngIf="EditAgencyForm.controls['Fax'].hasError('pattern') && submitted" class="text-danger error">Only number is required.</div>
+            <div *ngIf="(EditAgencyForm.controls['Fax'].hasError('minlength') || EditAgencyForm.controls['Fax'].hasError('maxlength')) && submitted" class="text-danger error">Fax number should have 10 digits.</div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label class="col-form-label" for="Email">Email Address<span class="text-danger">*</span></label>
+            <input type="email" class="form-control input-underline input-lg" placeholder="{{ 'Email Address' }}" id="Email" formControlName="Email">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label class="col-form-label" for="Address">Address Line<span class="text-danger">*</span></label>
+            <input type="text" class="form-control input-underline input-lg" placeholder="{{'Address'}}" id="Address" formControlName="Address">
+
+            <div *ngIf="EditAgencyForm.controls['Address'].hasError('required') && submitted" class="text-danger error">Address is required.</div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label class="col-form-label" for="State">State<span class="text-danger">*</span></label>
+            <ng-select
+              id="State"
+              class="ng-select-control"
+              [items]="states"
+              bindLabel="value"
+              bindValue="id"
+              placeholder="Select State"
+              [clearable]="false"
+              formControlName="State"
+              (change)="onChangeState($event)"
+            ></ng-select>
+
+            <div *ngIf="EditAgencyForm.controls['State'].hasError('required') && submitted" class="text-danger error">State is required.</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label class="col-form-label" for="City">City<span class="text-danger">*</span></label>
+            <ng-select
+              id="City"
+              class="ng-select-control"
+              [items]="cities"
+              bindLabel="value"
+              bindValue="id"
+              placeholder="Select City"
+              [clearable]="false"
+              formControlName="City"
+              (change)="onChangeCity($event)"
+            ></ng-select>
+
+            <div *ngIf="EditAgencyForm.controls['City'].hasError('required') && submitted" class="text-danger error">City is required.</div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label class="col-form-label" for="ZipCode">Zipcode<span class="text-danger">*</span></label>
+            <ng-select
+              id="ZipCode"
+              class="ng-select-control"
+              [items]="zipCodes"
+              bindLabel="value"
+              placeholder="Select Zipcode"
+              [clearable]="false"
+              formControlName="ZipCode"
+            ></ng-select>
+
+            <div *ngIf="EditAgencyForm.controls['ZipCode'].hasError('required') && submitted" class="text-danger error">Zip code is required.</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="radio-check">
+          <span class="radio-label">Do you have a EMR system which will be used for documenting clinical notes for visit? <span class="text-danger">*</span></span>
+          <label class="radio-check-wrapper">
+            <input type="radio" name="EmrSystem" [value]="true" formControlName="EmrSystem" >
+            <span class="radio"></span>
+            <span class="radio-label">Yes</span>
+          </label>
+          <label class="radio-check-wrapper">
+            <input type="radio" name="EmrSystem" [value]="false" formControlName="EmrSystem">
+            <span class="radio"></span>
+            <span class="radio-label">No</span>
+          </label>
+        </div>
+
+        <div *ngIf="EditAgencyForm.controls['EmrSystem'].hasError('required') && submitted" class="text-danger error">Please select EMRSystem.</div>
+      </div>
+      <div class="col-12" *ngIf="EditAgencyForm.controls['EmrSystem'].value">
+        <div class="form-group">
+          <label for="EMRSystemName" class="col-form-label">EMR System Name<span class="text-danger">*</span></label>
+          <input type="text" class="form-control" placeholder="EMR System Name" id="EMRSystemName" formControlName="EMRSystemName" autocomplete="off">
+
+          <div *ngIf="EditAgencyForm.controls['EMRSystemName'].hasError('required') && (EditAgencyForm.controls['EMRSystemName'].touched)" class="text-danger error">EMR Name is required.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="radio-check">
+          <span class="radio-label">If not, will you utilize the HomeHealthPro electronic clinical notes? <span class="text-danger">*</span></span>
+          <label class="radio-check-wrapper">
+            <input type="radio" name="ClinincalNotes" [value]="true" formControlName="ClinincalNotes">
+            <span class="radio"></span>
+            <span class="radio-label">Yes</span>
+          </label>
+          <label class="radio-check-wrapper">
+            <input type="radio" name="ClinincalNotes" [value]="false" formControlName="ClinincalNotes">
+            <span class="radio"></span>
+            <span class="radio-label">No</span>
+          </label>
+        </div>
+
+        <div *ngIf="EditAgencyForm.controls['ClinincalNotes'].hasError('required') && EditAgencyForm.controls['ClinincalNotes'].touched" class="text-danger error">Please select Clinician Notes.</div>
+
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-link" (click)="close()">Cancel</button>
+    <button type="submit" class="primary-gradient-btn" >Update</button>
+  </div>
+</form>

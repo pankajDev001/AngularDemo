@@ -1,0 +1,119 @@
+$topnav-background-color: #222;
+$purple-1: #663399;
+:host {
+  .navbar {
+    background-color: $purple-1;
+    z-index: 1050;
+    .navbar-brand {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: $purple-1;
+      // background: #fff;
+      border-radius: 5px;
+      // padding: 5px 20px;
+      padding: 0;
+      width: 180px;
+      height: 40px;
+      img {
+        height: 100%;
+      }
+    }
+    .nav-item {
+      &>a {
+        color: #fff;
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
+  }
+  .messages {
+    width: 300px;
+    padding: 0;
+    margin:1.25rem 0 0;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.175);
+    border:0;
+    &:before{
+      content: "";
+      position: absolute;
+      right: 15px;
+      top: -20px;
+      border-style: solid;
+      border-width: 10px;
+      border-color: transparent transparent $purple-1 transparent;
+    }
+    .message-head{
+      background-color: $purple-1;
+      color:white;
+      padding: 8px 15px;
+      border-top-left-radius: .25rem;
+      border-top-right-radius: .25rem;
+    }
+    .msg-list{
+      padding: 0;
+      margin: 0;
+      max-height: 300px;
+      overflow-y: auto;
+      .media {
+        border-bottom: 1px solid #eef0f8;
+        padding: 6px 15px;
+        white-space: normal;
+        &:last-child {
+          border-bottom: none;
+        }
+        &:active{
+          background-color: #eef0f8;
+        }
+      }
+      .media-body {
+        h5 {
+          font-size: 13px;
+          font-weight: 600;
+        }
+        .small {
+          margin: 0;
+        }
+        .last {
+          font-size: 14px;
+          font-weight: 500;
+          color: #132e68;
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  .list-group{
+    max-height: 300px;
+    margin-bottom: 10px;
+    overflow-y:scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .dropdown-menu-right{
+
+  }
+
+  .badge{
+    position: relative;
+    margin-left: 60%;
+    margin-top: -60%;
+  }
+
+  .caret{
+    position: relative;
+    top: -6px;
+    left: -4px;
+    background: red;
+    border-radius: 50%;
+    display: inline-block;
+    width: 22px;
+    text-align: center;
+    height: 22px;
+    font-size: 0.7rem;
+    line-height: 22px;
+  }
+
+
+}

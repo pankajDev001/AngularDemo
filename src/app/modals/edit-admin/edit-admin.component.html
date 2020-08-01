@@ -1,0 +1,108 @@
+<form [formGroup]="EditAdminForm" (ngSubmit)="onSubmit()" autocomplete="off">
+  <div class="modal-header">
+    <h4 class="modal-title">Edit admin: {{admin ? admin.fullName : ''}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <img src="assets/images/close.svg" alt="close icon" width="25">        
+    </button>
+  </div>
+  <div class="modal-body">
+      <div class="form-container bg-white">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="col-form-label" for="FirstName">First Name<span class="text-danger">*</span></label>
+              <input type="text" class="form-control input-underline input-lg" placeholder="{{'First Name'}}" id="FirstName"  formControlName="FirstName" mask="S*">
+
+              <div *ngIf="EditAdminForm.controls['FirstName'].hasError('required') && submitted" class="text-danger error">First name is required.</div>
+              <div *ngIf="EditAdminForm.controls['FirstName'].hasError('pattern') && submitted" class="text-danger error">First name is invalid.</div>
+              <div *ngIf="EditAdminForm.controls['FirstName'].hasError('minlength') && submitted" class="text-danger error">First name is too short.</div>
+              <div *ngIf="EditAdminForm.controls['FirstName'].hasError('maxlength') && submitted" class="text-danger error">First name should not be greater than 25 Characters.</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="col-form-label" for="LastName">Last Name<span class="text-danger">*</span></label>
+              <input type="text" class="form-control input-underline input-lg" placeholder="{{'Last Name'}}" id="LastName" formControlName="LastName" mask="S*">
+
+              <div *ngIf="EditAdminForm.controls['LastName'].hasError('required') && submitted" class="text-danger error">Last name is required.</div>
+              <div *ngIf="EditAdminForm.controls['LastName'].hasError('pattern') && submitted" class="text-danger error">Last name is invalid.</div>
+              <div *ngIf="EditAdminForm.controls['LastName'].hasError('minlength') && submitted" class="text-danger error">Last name is too short.</div>
+              <div *ngIf="EditAdminForm.controls['LastName'].hasError('maxlength') && submitted" class="text-danger error">Last name should not be greater than 25 Characters.</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="col-form-label" for="Gender">Select Gender<span class="text-danger">*</span></label>
+              <ng-select
+                id="Gender"
+                class="ng-select-control"
+                [items]="gender"
+                bindLabel="name"
+                bindValue="name"
+                placeholder="Select Gender"
+                [searchable]="false"
+                [clearable]="false"
+                formControlName="Gender"
+              ></ng-select>
+
+              <div *ngIf="EditAdminForm.controls['Gender'].hasError('required') && submitted" class="text-danger error">Date of birth is required.</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="col-form-label" for="Email">Email<span class="text-danger">*</span></label>
+              <input type="email" class="form-control input-underline input-lg" placeholder="{{ 'Email Address' }}" id="Email" formControlName="Email">
+    
+              <div *ngIf="EditAdminForm.controls['Email'].hasError('required') && submitted" class="text-danger error">Email address is required.</div>
+              <div *ngIf="(EditAdminForm.controls['Email'].hasError('email') || EditAdminForm.controls['Email'].hasError('pattern')) && submitted" class="text-danger error">Email address is invalid.</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="col-form-label" for="ContactNo">Contact No<span class="text-danger">*</span></label>
+              <input type="text" class="form-control input-underline input-lg" placeholder="{{ 'Phone: (000-000-0000)' }}" id="ContactNo" formControlName="ContactNo" mask="000-000-0000">
+    
+              <div *ngIf="EditAdminForm.controls['ContactNo'].hasError('required') && submitted" class="text-danger error">Phone number is required.</div>
+              <div *ngIf="EditAdminForm.controls['ContactNo'].hasError('pattern') && submitted" class="text-danger error">Only number is required.</div>
+              <div *ngIf="(EditAdminForm.controls['ContactNo'].hasError('minlength') || EditAdminForm.controls['ContactNo'].hasError('maxlength')) && submitted" class="text-danger error">Phone number should have 10 digits.</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="col-form-label" for="JobTitle">Job Title<span class="text-danger">*</span></label>
+              <input type="text" class="form-control input-underline input-lg" placeholder="{{ 'Job Title' }}" id="JobTitle" formControlName="JobTitle" mask="S* S* S* S* S*" [dropSpecialCharacters]="false">
+    
+              <div *ngIf="EditAdminForm.controls['JobTitle'].hasError('required') && submitted" class="text-danger error">Job title is required.</div>
+              <div *ngIf="EditAdminForm.controls['JobTitle'].hasError('pattern') && submitted" class="text-danger error">Job title is invalid.</div>
+              <div *ngIf="EditAdminForm.controls['JobTitle'].hasError('minlength') && submitted" class="text-danger error">Job title is too short.</div>
+              <div *ngIf="EditAdminForm.controls['JobTitle'].hasError('maxlength') && submitted" class="text-danger error">Job title should not be greater than 25 Characters.</div>
+            </div>
+          </div>
+         
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="col-form-label" for="DOB">DOB<span class="text-danger">*</span></label>
+              <div class="input-group">
+                <input type="text" class="form-control date input-underline input-lg" placeholder="{{ 'DOB: MM/DD/YYYY' }}" ngbDatepicker (dateSelect)="onDateSelect($event)" #d="ngbDatepicker" id="DOB" readonly tabindex="-1" formControlName="DOB" value="{{date}}
+                "
+                [minDate]="{year: year - 80 , month: month, day: day}"
+                [maxDate]="{year: year - 18 , month: month, day: day}"
+                >
+                <div class="input-group-append">
+                  <button class="btn calendar" type="button" (click)="d.toggle()">
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </div>
+              </div>
+              <div *ngIf="EditAdminForm.controls['DOB'].hasError('minDate') && submitted" class="text-danger error">Min Date</div>
+              <div *ngIf="EditAdminForm.controls['DOB'].hasError('maxDate') && submitted" class="text-danger error">Max Date</div>
+            </div>
+          </div>
+        </div><!--/.row-->
+      </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-link" (click)="close()">Cancel</button>
+    <button type="submit" class="primary-gradient-btn">Update</button>
+  </div>
+</form>

@@ -1,0 +1,16 @@
+.page-header-wrapper {
+    background: #fff;
+    margin-top: -15px;
+    margin-bottom: 30px;
+    .page-header {
+        padding: 30px 25px;
+        margin: 0;
+        font-weight: 500;
+        font-size: 22px;
+        color: #132e68;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}

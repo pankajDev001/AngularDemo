@@ -1,0 +1,246 @@
+<div class="modal-header">
+  <h4 class="modal-title">Scheduled Visit Details</h4>
+  <button type="button" class="close" aria-label="Close" (click)="close()">
+    <img src="assets/images/close.svg" alt="close icon" width="25">
+  </button>
+</div>
+<div class="modal-body customTab">
+  <ngb-tabset #tab="ngbTabset" [destroyOnHide]="false"  type="pills">
+    <ngb-tab id="tab-1" title="Visit Details">
+      <ng-template ngbTabContent>
+  <div class="details-card">
+    <div class="details-header">Patient Details</div>
+    <div class="details-card-body">
+      <div class="row">
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Name</div>
+          <div class="label-text">{{visitDetails.patient? visitDetails.patient.patientName : ''}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Gender</div>
+          <div class="label-text">{{visitDetails.patient? visitDetails.patient.gender : ''}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Date of Birth</div>
+          <div class="label-text">{{visitDetails.patient? visitDetails.patient.dob : ''}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Contact No</div>
+          <div class="label-text">{{visitDetails.patient? visitDetails.patient.phone : ''}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Email Address</div>
+          <div class="label-text">{{(visitDetails.patient? visitDetails.patient.email : '') | lowercase }} </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Address</div>
+          <div class="label-text">{{visitDetails.patient? visitDetails.patient.address : ''}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">State</div>
+          <div class="label-text">{{visitDetails.patient? visitDetails.patient.state : ''}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">City</div>
+          <div class="label-text">{{visitDetails.patient? visitDetails.patient.city : ''}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Zipcode</div>
+          <div class="label-text">{{visitDetails.patient? visitDetails.patient.zipcode : ''}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4">
+          <div class="label-heading">Type</div>
+          <div class="label-text">{{(visitDetails.patient? visitDetails.patient.patientType : '') | titlecase}}</div>
+        </div>
+        <div class="col-12 col-md-6 col-xl-4">
+          <div class="label-heading">Diagnosis</div>
+          <div class="label-text">{{visitDetails.patient? visitDetails.patient.diagnosis : ''}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="details-card">
+    <div class="details-header">Patient Insurance Details</div>
+    <div class="details-card-body">
+      <div class="row">
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Insurance Type</div>
+          <div class="label-text">{{visitDetails.patient? visitDetails.patient.insuranceType : ''}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="details-card">
+    <div class="details-header">Visit Details</div>
+    <div class="details-card-body">
+      <div class="row">
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Assigned Clinician</div>
+          <div class="label-text">{{visitDetails.visit? visitDetails.visit.clinicianName : ''}} <span *ngIf="visitDetails.visit.visitStatus === 'PENDING'">-</span></div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Number of Visit Needed</div>
+          <div class="label-text">{{visitDetails.visit? visitDetails.visit.noOfVisitsNeeded : ''}}</div>
+        </div>
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Authorization Start Date</div>
+          <div class="label-text">{{visitDetails.visit? visitDetails.visit.authorizationStartDate : ''}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Authorization End Date</div>
+          <div class="label-text">{{visitDetails.visit? visitDetails.visit.authorizationEndDate : ''}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Certification Start Date</div>
+          <div class="label-text">{{visitDetails.visit? visitDetails.visit.certificationPeriodStartDate : ''}}</div>
+        </div>
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Certification End Date</div>
+          <div class="label-text">{{visitDetails.visit? visitDetails.visit.certificationPeriodEndDate : ''}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Visit Date</div>
+          <div class="label-text">{{visitDetails.visit? visitDetails.visit.visitDate : ''}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Visit Time</div>
+          <div class="label-text">{{visitDetails.visit? visitDetails.visit.visitTime : ''}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Preference Time</div>
+          <div class="label-text">{{visitDetails.visit? visitDetails.visit.preferenceTime : ''}}</div>
+        </div>
+
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Visit Status</div>
+          <div class="label-text">{{(visitDetails.visit? visitDetails.visit.visitStatus : '') | titlecase}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Category</div>
+          <div class="label-text">{{visitDetails.visit? visitDetails.visit.category : ''}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Service Type</div>
+          <div class="label-text">{{visitDetails.visit? visitDetails.visit.serviceTypeName : ''}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Gender Preference</div>
+          <div class="label-text">{{visitDetails.visit? visitDetails.visit.genderPreference : ''}}</div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-4 mb-3">
+          <div class="label-heading">Clinician Fees</div>
+          <div class="label-text">{{visitDetails.visit? '$'+visitDetails.visit.clinicianFee : ''}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="details-card">
+    <div class="details-header">Notes Details</div>
+    <div class="details-card-body">
+      <div class="row">
+        <div class="col-12 mb-3">
+          <div class="label-heading">Agency Notes</div>
+          <div class="label-text">{{visitDetails.extraVisitDetails? visitDetails.extraVisitDetails.agencyNotes : ''}}</div>
+        </div>
+
+        <div class="col-12 mb-3">
+          <div class="label-heading">Clinician Notes</div>
+          <div class="label-text">{{visitDetails.extraVisitDetails? visitDetails.extraVisitDetails.clinicianNotes : '-'}}</div>
+        </div>
+
+        <!-- <div class="col-12">
+          <div class="label-heading">Patient Notes</div>
+          <div class="label-text">{{visitDetails.extraVisitDetails? visitDetails.extraVisitDetails.patientNotes : ''}}</div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+      </ng-template>
+    </ngb-tab>
+
+    <ngb-tab id="tab-2" title="Documents">
+      <ng-template ngbTabContent>
+        <div style="min-height: 20rem;">
+          <div class="details-card">
+            <div class="details-card-body">
+              <div class="row">
+                <div class="col-12 p-4">
+
+                  <table class="table table-striped" id="agency-table">
+                    <thead>
+                    <tr>
+                      <th>Document Name</th>
+                      <th>Document Type</th>
+                      <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let item of visitDetails?.visitFiles">
+                        <td>{{item.documentName ?  item.documentName : '-'}}</td>
+                        <td>{{item.documentType ?  item.documentType : '-'}}</td>
+                        <td>
+                          <button ngbTooltip="Download File" class="btn btn-outline-primary btn-radius btn-sm ml-1" (click)="downloadDoc(item)"><i class="fa fa-download"></i></button>
+                        </td>
+                    </tr>
+
+                    <tr *ngIf="visitDetails?.visitFiles?.length == 0">
+                      <td></td>
+                      <td>No Documents Uploaded</td>
+                      <td></td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-12 text-right" [ngClass]="user['role'] === 'AGENCY' ? 'd-block' :'d-none'">
+                  <button ngbTooltip="Approve Document" class="btn btn-outline-primary btn-radius btn-sm" (click)="approveDoc('approve')">Approve</button>
+                  <button  ngbTooltip="Reject Document" class="btn btn-outline-primary btn-radius btn-sm ml-1 " (click)="rejectDoc(content)">Reject</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+</div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Reject Notes</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="reason">Reason</label>
+        <div class="input-group">
+          <input id="reason" class="form-control" placeholder="" name="dp" [(ngModel)]="agencyRejectedReason" required>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="approveDoc('reject')">Save</button>
+  </div>
+</ng-template>

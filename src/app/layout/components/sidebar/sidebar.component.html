@@ -1,0 +1,93 @@
+<nav id="sidebar" class="sidebar shadow-sm" [ngClass]="{sidebarPushRight: isActive, collapsed: collapsed}">
+  <div class="super-admin-section">
+    <figure>
+      <div class="image-wrapper">
+        <img src="{{contentUrl}}{{user.profileImage}}" alt="user-profile-avatar" class="img-fluid rounded-circle" id="sidebarProfileImage" width="90">
+      </div>
+
+      <figcaption>
+        <h1>{{user.firstName}} {{user.lastName}}</h1>
+        <h2>{{user.role.replace('_', ' ') | titlecase}}</h2>
+      </figcaption>
+    </figure>
+  </div>
+
+  <div class="list-group">
+    <!-- Dashboard -->
+    <a [routerLink]="['/dashboard']" [class]="activeUrl[1] == 'dashboard' ? 'router-link-active list-group-item' : 'list-group-item'" *ngIf="visible?.DASHBOARD || user.role === 'SUPER_ADMIN'">
+      <span class="text-wrapper">
+        <i class="fa fa-fw fa-dashboard "></i>&nbsp;
+        <span>{{ 'Dashboard' | translate }}</span>
+      </span>
+    </a>
+    <a [routerLink]="['/agency/dashboard']" [class]="activeUrl[2] == 'dashboard' ? 'router-link-active list-group-item' : 'list-group-item'" *ngIf="user.role === 'AGENCY'">
+      <span class="text-wrapper">
+        <i class="fa fa-fw fa-dashboard "></i>&nbsp;
+        <span>{{ 'Dashboard' | translate }}</span>
+      </span>
+    </a>
+
+    <a [routerLink]="['/clinicians']" *ngIf="visible['CLINICIANS_LIST'] || user.role == 'SUPER_ADMIN' || user.role === 'AGENCY'" [class]="activeUrl[1] == 'clinicians' || activeUrl[1] == 'clinician-details'  ? 'router-link-active list-group-item' : 'list-group-item'">
+      <span class="text-wrapper">
+        <i class="fa fa-fw fa fa-medkit"></i>&nbsp;
+        <span>{{ 'Clinicians' | translate }}</span>
+      </span>
+    </a>
+
+    <a [routerLink]="['/agencies']" *ngIf="visible['AGENCIES_LIST'] || user.role == 'SUPER_ADMIN'"  [class]="activeUrl[1] == 'agencies' || activeUrl[1] == 'agency-details' ? 'router-link-active list-group-item' : 'list-group-item'">
+      <span class="text-wrapper">
+        <i class="fa fa-fw fa-building"></i>&nbsp;
+        <span>{{ 'Agencies' | translate }}</span>
+      </span>
+    </a>
+
+    <a [routerLink]="['/patients']" *ngIf="visible['PATIENTS_LIST'] || user.role == 'SUPER_ADMIN' || user.role === 'AGENCY'"  [class]="activeUrl[1] == 'patients' ? 'router-link-active list-group-item' : 'list-group-item'">
+      <span class="text-wrapper">
+        <i class="fa fa-fw fa-id-card" aria-hidden="true"></i>&nbsp;
+        <span>{{ 'Patients' | translate }}</span>
+      </span>
+    </a>
+
+    <a [routerLink]="['/scheduled-visits']" *ngIf="visible['VISITS_LIST'] || user.role == 'SUPER_ADMIN' || user.role == 'AGENCY'"  [class]="activeUrl[1] == 'scheduled-visits' ? 'router-link-active list-group-item' : 'list-group-item'">
+      <span class="text-wrapper">
+        <i class="fa fa-fw fa-calendar-check-o"></i>&nbsp;
+        <span>{{ 'Scheduled Visits' | translate }}</span>
+      </span>
+    </a>
+
+    <a [routerLink]="['/manage-admins']" *ngIf="visible['ADMIN_USERS_LIST'] || user.role == 'SUPER_ADMIN'"  [class]="activeUrl[1] == 'manage-admins' ? 'router-link-active list-group-item' : 'list-group-item'" class="list-group-item">
+      <span class="text-wrapper">
+        <i class="fa fa-fw fa-users"></i>&nbsp;
+        <span>{{ 'Admin Users' | translate }}</span>
+      </span>
+    </a>
+
+    <a [routerLink]="['/manage-modules']" *ngIf="user.role == 'SUPER_ADMIN'" [class]="activeUrl[1] == 'manage-modules' ? 'router-link-active list-group-item' : 'list-group-item'" class="list-group-item">
+      <span class="text-wrapper">
+        <i class="fa fa-fw fa-check-square-o"></i>&nbsp;
+        <span>{{ 'Admin Permissions' | translate }}</span>
+      </span>
+    </a>
+
+    <a routerLink="/user-fee-settings" *ngIf="visible['CATEGORY_FEE_LIST'] || user.role == 'SUPER_ADMIN'"  [class]="activeUrl[1] == 'user-fee-settings' ? 'router-link-active list-group-item' : 'list-group-item'" class="list-group-item" >
+      <span class="text-wrapper">
+        <i class="fa fa-money"></i>&nbsp;
+        <span>{{ 'Category Fee' | translate }}</span>
+      </span>
+    </a>
+
+    <a routerLink="/payment-report" *ngIf="visible['PAYEMENT_REVENUE_LIST'] || user.role == 'SUPER_ADMIN' || user.role === 'AGENCY'"  [class]="activeUrl[1] == 'payment-report' ? 'router-link-active list-group-item' : 'list-group-item'" [routerLinkActive]="['router-link-active']" class="list-group-item">
+      <span class="text-wrapper">
+        <i class="fa fa-fw fa-usd"></i>&nbsp;
+        <span>{{ 'Payment Report' | translate }}</span>
+      </span>
+    </a>
+
+    <a [routerLink]="['/my-account']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+      <span class="text-wrapper">
+        <i class="fa fa-fw fa-user" aria-hidden="true"></i>&nbsp;
+        <span>{{ 'My Account' | translate }}</span>
+      </span>
+    </a>
+  </div>
+</nav>

@@ -1,0 +1,670 @@
+<div class="row page-header-wrapper shadow-sm">
+  <div class="col">
+    <h2 class="page-header">Schedule Visit</h2>
+  </div>
+</div>
+
+<div [@routerTransition]>
+  <div class="row">
+
+    <div class="col-xl-6">
+      <form [formGroup]="scheduleVisitForm">
+
+        <div class="card header-with-border mb-5">
+          <div class="card-header">Patient Details</div>
+          <div class="card-body">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="col-form-label" for="PatientName">Patient Name<span class="text-danger">*</span></label>
+                  <input type="text" class="form-control input-underline input-lg" placeholder="{{'Patient Name'}}" formControlName="name" mask="S* S* S* S* " id="PatientName">
+
+                  <div *ngIf="scheduleVisitForm.controls['name'].hasError('required') && submitted" class="text-danger error">Patient Name is required.</div>
+                  <div *ngIf="scheduleVisitForm.controls['name'].hasError('pattern') && submitted" class="text-danger error">Patient Name is invalid.</div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="col-form-label" for="PatientDOB">Patient DOB<span class="text-danger">*</span></label>
+                  <div class="input-group">
+                    <input id="PatientDOB" type="text" class="form-control date" [minDate]="{year: 1910, month:1, day: 1}" [maxDate]="today" formControlName="dob" placeholder="{{ 'DOB: MM/DD/YYYY' }}" ngbDatepicker #d="ngbDatepicker" readonly>
+                    <div class="input-group-append">
+                      <button class="btn calendar" type="button" (click)="d.toggle()">
+                        <i class="fa fa-calendar"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div *ngIf="scheduleVisitForm.controls['dob'].hasError('required') && submitted" class="text-danger error">Patient DOB is required.</div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="col-form-label" for="PatientType">Patient Type<span class="text-danger">*</span></label>
+                  <ng-select
+                    class="ng-select-control"
+                    [items]="patientTypes"
+                    bindLabel="value"
+                    bindValue="id"
+                    [clearable]="false"
+                    [searchable]="false"
+                    placeholder="Select Patient Type"
+                    formControlName="patientTypeId"
+                    id="PatientType"
+                  ></ng-select>
+
+                  <div *ngIf="scheduleVisitForm.controls['patientTypeId'].hasError('required') && submitted" class="text-danger error">Patient Type is required.</div>
+
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="col-form-label" for="PatientEmail">Email</label>
+                  <input type="text" class="form-control input-underline input-lg" placeholder="{{'Email address'}}" formControlName="email" id="PatientEmail">
+                
+                
+                  <div *ngIf="scheduleVisitForm.controls['email'].hasError('required') && submitted" class="text-danger error">Email address is required.</div>
+
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="col-form-label" for="PatientPhone">Phone<span class="text-danger">*</span></label>
+                  <input type="text" class="form-control input-underline input-lg" placeholder="{{'Phone: (000-000-0000)'}}" [dropSpecialCharacters]="false" formControlName="phone" mask="000-000-0000" id="PatientPhone">
+
+                  <div *ngIf="scheduleVisitForm.controls['phone'].hasError('required') && submitted" class="text-danger error">Phone number is required.</div>
+                  <div *ngIf="scheduleVisitForm.controls['phone'].hasError('pattern')" class="text-danger error">Only number is required.</div>
+                  <div *ngIf="scheduleVisitForm.controls['phone'].hasError('minlength') || scheduleVisitForm.controls['phone'].hasError('maxlength') && submitted" class="text-danger error">Phone number should have 10 digits.</div>
+
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="col-form-label" for="PatientEmergencyContactName">Emergency Contact Name<span class="text-danger">*</span></label>
+                  <input type="text" class="form-control input-underline input-lg" placeholder="{{'Emergency Contact Name'}}" formControlName="emergencyContactName" id="PatientEmergencyContactName" mask="S*">
+
+                  <div *ngIf="scheduleVisitForm.controls['emergencyContactName'].hasError('required') && submitted" class="text-danger error">Contact Name is required.</div>
+                  <div *ngIf="scheduleVisitForm.controls['emergencyContactName'].hasError('pattern') && submitted" class="text-danger error">Contact Name is invalid.</div>
+
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="col-form-label" for="PatientEmergencyContactPhone">Emergency Contact Phone<span class="text-danger">*</span></label>
+                  <input type="text" class="form-control input-underline input-lg" placeholder="{{'Phone: (000-000-0000)'}}"  [dropSpecialCharacters]="false" formControlName="emergencyContactNo" mask="000-000-0000" id="PatientEmergencyContactPhone">
+
+                  <div *ngIf="scheduleVisitForm.controls['emergencyContactNo'].hasError('required') && submitted" class="text-danger error">Emergency Contact is required.</div>
+                  <div *ngIf="scheduleVisitForm.controls['emergencyContactNo'].hasError('pattern')" class="text-danger error">Only number is required.</div>
+                  <div *ngIf="scheduleVisitForm.controls['emergencyContactNo'].hasError('minlength') || scheduleVisitForm.controls['emergencyContactNo'].hasError('maxlength') && submitted" class="text-danger error">Emergency Contact should have 10 digits.</div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="col-form-label" for="PatientGender">Patient Gender<span class="text-danger">*</span></label>
+                  <ng-select
+                    class="ng-select-control"
+                    [items]="patient_gender"
+                    bindLabel="value"
+                    bindValue="value"
+                    [clearable]="false"
+                    [searchable]="false"
+                    placeholder="Select Gender"
+                    formControlName="gender"
+                    id="PatientGender"
+                  ></ng-select>
+                  <div *ngIf="scheduleVisitForm.controls['gender'].hasError('required') && submitted" class="text-danger error">Gender is required.</div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="col-form-label" for="PatientAddressLine">Address Line<span class="text-danger">*</span></label>
+                  <input type="text" class="form-control input-underline input-lg" placeholder="{{'Address Line'}}" formControlName="address" id="PatientAddressLine">
+                  <div *ngIf="scheduleVisitForm.controls['address'].hasError('required') && submitted" class="text-danger error">Address line is required.</div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="col-form-label" for="State">State<span class="text-danger">*</span></label>
+                  <ng-select
+                    class="ng-select-control"
+                    placeholder="Select State"
+                    [items]="states"
+                    bindLabel="value"
+                    (change)="getCityList($event)"
+                    [clearable]="false"
+                    formControlName="stateId"
+                    id="State"
+                  ></ng-select>
+                  <div *ngIf="scheduleVisitForm.controls['stateId'].hasError('required') && submitted" class="text-danger error">State is required.</div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="col-form-label" for="City">City<span class="text-danger">*</span></label>
+                  <ng-select
+                    class="ng-select-control"
+                    placeholder="Select City"
+                    [clearable]="false"
+                    [items]="cities"
+                    bindLabel="value"
+                    (change)="getZipcodeList($event)"
+                    formControlName="cityId"
+                    id="City"
+                  ></ng-select>
+                  <div *ngIf="scheduleVisitForm.controls['cityId'].hasError('required') && submitted" class="text-danger error">City is required.</div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="col-form-label" for="Zipcode">Zipcode<span class="text-danger">*</span></label>
+                  <ng-select
+                    (change)="setVisitZipCode($event)"
+                    class="ng-select-control"
+                    placeholder="Select Zipcode"
+                    [clearable]="false"
+                    [items]="zipcodes"
+                    bindLabel="value"
+                    bindValue="value"
+                    [searchable]="false"
+                    formControlName="zipcode"
+                    id="Zipcode"
+                  ></ng-select>
+                  <div *ngIf="scheduleVisitForm.controls['zipcode'].hasError('required') && submitted" class="text-danger error">Zipcode is required.</div>
+
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="col-form-label" for="Diagnosis">Diagnosis<span class="text-danger">*</span></label>
+                  <input type="text" class="form-control input-underline input-lg" placeholder="{{'Diagnosis'}}" formControlName="diagnosis" id="Diagnosis">
+                  <div *ngIf="scheduleVisitForm.controls['diagnosis'].hasError('required') && submitted" class="text-danger error">Diagnosis is required.</div>
+                  <div *ngIf="scheduleVisitForm.controls['diagnosis'].hasError('pattern') && submitted" class="text-danger error">Diagnosis is invalid.</div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="col-form-label" for="InsuranceType">Insurance Type<span class="text-danger">*</span></label>
+                  <input type="text" class="form-control input-underline input-lg" placeholder="{{'Insurance Type'}}" formControlName="insuranceType" id="InsuranceType">
+                  <div *ngIf="scheduleVisitForm.controls['insuranceType'].hasError('required') && submitted" class="text-danger error">Insurance type is required.</div>
+                  <div *ngIf="scheduleVisitForm.controls['insuranceType'].hasError('pattern') && submitted" class="text-danger error">Insurance type is invalid.</div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="card-header">Visit Details</div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="col-form-label" for="NumberOfVisit">Number of Visit<span class="text-danger">*</span></label>
+                    <input type="text"  (change)="scheduleVisitForm.controls['VisitDate'].reset()" class="form-control input-underline input-lg" placeholder="{{'Number of Visit'}}" mask="0*0" id="NumberOfVisit" formControlName="NumberOfVisit">
+
+                    <div *ngIf="scheduleVisitForm.controls['NumberOfVisit'].hasError('required') && submitted" class="text-danger error">Number of Visit is required.</div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="col-form-label" for="AuthStartDate">Authorization Start Date<span class="text-danger">*</span></label>
+                    <div class="input-group">
+                      <input type="text" class="form-control input-underline input-lg date" placeholder="{{'Date: (MM/DD/YYYY)'}}"
+                             ngbDatepicker
+                             (dateSelect)="authStartDateSelect($event)"
+                             #AuthStartDate="ngbDatepicker"
+                             readonly
+                             tabindex="-1"
+                             id="AuthStartDate"
+                             formControlName="AuthStartDate"
+                             [minDate]="{year: year - 50 , month: month, day: day}"
+                             [maxDate]="today"
+                      >
+                      <div class="input-group-append">
+                        <button class="btn calendar" type="button" (click)="AuthStartDate.toggle()">
+                          <i class="fa fa-calendar"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div *ngIf="scheduleVisitForm.controls['AuthStartDate'].hasError('required') && submitted" class="text-danger error">Authorization start date is required.</div>
+                    <div *ngIf="scheduleVisitForm.controls['AuthStartDate'].hasError('inValidDate') && submitted" class="text-danger error">Invalid date range.</div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="col-form-label" for="AuthEndDate">Authorization End Date <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                      <input type="text" class="form-control input-underline input-lg date" placeholder="{{'Date: (MM/DD/YYYY)'}}"
+                             ngbDatepicker
+                             (dateSelect)="authEndDateSelect($event)"
+                             #AuthEndDate="ngbDatepicker"
+                             readonly
+                             tabindex="-1"
+                             id="AuthEndDate"
+                             formControlName="AuthEndDate"
+                             [minDate]="today"
+                             [maxDate]="{year: year + 15 , month: month, day: day}"
+                      >
+                      <div class="input-group-append">
+                        <button class="btn calendar" type="button" (click)="AuthEndDate.toggle()">
+                          <i class="fa fa-calendar"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div *ngIf="scheduleVisitForm.controls['AuthEndDate'].hasError('required') && submitted" class="text-danger error">Authorization end date is required.</div>
+                    <div *ngIf="scheduleVisitForm.controls['AuthEndDate'].hasError('inValidDate') && submitted" class="text-danger error">Invalid date range.</div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="col-form-label" for="CPStartDate">Certification Period Start Date <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                      <input type="text" class="form-control input-underline input-lg date" placeholder="{{'Date: (MM/DD/YYYY)'}}"
+                             ngbDatepicker
+                             (dateSelect)="cpStartDateSelect($event)"
+                             #CP_StartDate="ngbDatepicker"
+                             readonly
+                             tabindex="-1"
+                             id="CPStartDate"
+                             formControlName="CPStartDate"
+                             [minDate]="{year: year - 50 , month: month, day: day}"
+                             [maxDate]="today"
+                             value="{{cpStartDate}}"
+                      >
+                      <div class="input-group-append">
+                        <button class="btn calendar" type="button" (click)="CP_StartDate.toggle()">
+                          <i class="fa fa-calendar"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div *ngIf="scheduleVisitForm.controls['CPStartDate'].hasError('required') && submitted" class="text-danger error">Certification period start date is required.</div>
+                    <div *ngIf="scheduleVisitForm.controls['CPStartDate'].hasError('inValidDate') && submitted" class="text-danger error">Invalid date range.</div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="col-form-label" for="CPEndDate">Certification Period End Date <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                      <input type="text" class="form-control input-underline input-lg date" placeholder="{{'Date: (MM/DD/YYYY)'}}"
+                             ngbDatepicker
+                             (dateSelect)="cpEndDateSelect($event)"
+                             #CP_EndDate="ngbDatepicker"
+                             readonly
+                             tabindex="-1"
+                             id="CPEndDate"
+                             formControlName="CPEndDate"
+                             [minDate]="today"
+                             [maxDate]="{year: year + 15 , month: month, day: day}"
+
+                      >
+                      <div class="input-group-append">
+                        <button class="btn calendar" type="button" (click)="CP_EndDate.toggle()">
+                          <i class="fa fa-calendar"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div *ngIf="scheduleVisitForm.controls['CPEndDate'].hasError('required') &&  submitted" class="text-danger error">Certification period end date is required.</div>
+                    <div *ngIf="scheduleVisitForm.controls['CPEndDate'].hasError('inValidDate') && submitted" class="text-danger error">Invalid date range.</div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="col-form-label">Visit Date<span class="text-danger">*</span></label>
+                    <label class="select-checkbox sqaure-checkbox label-checkbox float-right"><span class="col-form-label">Flexible Dates</span>
+                      <input type="checkbox" formControlName="IsVisitDateFlexible"> 
+                      <span class="checkmark"></span>
+                    </label>
+                    <span class="clearfix"></span>
+                    <div class="input-group">
+
+                      <p-calendar
+                        class="datepicker-control-wrapper"
+                        (onClose)="setValidity(1)"
+                        tabindex="-1"
+                        [inputStyleClass]="'form-control input-underline input-lg date'" [required]="true" id="visitDate"
+                        [styleClass]="'datepicker-control'"
+                        formControlName="VisitDate"
+                        [minDate]="visitStartDate"
+                        [maxDate]="visitStartEnd"
+                        selectionMode="multiple"
+                        placeholder="Visit Date"
+                        #myCalendar
+                        [showIcon]="true" [icon]="'fa fa-calendar'" hideOnDateTimeSelect="true" [maxDateCount]="scheduleVisitForm.controls['NumberOfVisit'].value" [readonlyInput]="true"
+                      >
+                        <p-footer>
+                          <button class="btn btn-danger" pButton type="button" label="Done" (click)="close();$event.stopPropagation()"></button>
+                        </p-footer>
+                      </p-calendar>
+                    </div>
+                    <div *ngIf="scheduleVisitForm.controls['VisitDate'].hasError('required') && submitted" class="text-danger error">Visit date is required.</div>
+                    <div *ngIf="scheduleVisitForm.controls['VisitDate'].hasError('length_check') && submitted" class="text-danger error">Please select {{scheduleVisitForm.controls['NumberOfVisit'].value}} visit dates. or Modify the Authorization and Certification End Date in order to increase/decrease the range.</div>
+                  </div>
+
+
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="col-form-label" for="DisciplineNeeded">Discipline Needed<span class="text-danger">*</span></label>
+                    <ng-select
+                      class="ng-select-control"
+                      [items]="categories"
+                      bindLabel="value"
+                      bindValue="id"
+                      [clearable]="false"
+                      [searchable]="false"
+                      [multiple]="false"
+                      (change)="getFeeRange()"
+                      placeholder="Select Category"
+                      id="DisciplineNeeded"
+                      formControlName="DisciplineNeeded"
+                    ></ng-select>
+
+                    <div *ngIf="scheduleVisitForm.controls['DisciplineNeeded'].hasError('required') && submitted" class="text-danger error">Discipline needed is required.</div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="col-form-label" for="VisitFrequency">Visit Frequency<span class="text-danger">*</span></label>
+                    <!--<input type="text" class="form-control input-underline input-lg" placeholder="{{'Visit Frequency'}}" id="VisitFrequency" formControlName="VisitFrequency">-->
+                    <ng-select
+                      class="ng-select-control"
+                      placeholder="Visit Frequency"
+                      [clearable]="false"
+                      [items]="visitfrequency_list"
+                      bindLabel="value"
+                      formControlName="VisitFrequency"
+                      id="VisitFrequency"
+                    ></ng-select>
+                    <div *ngIf="scheduleVisitForm.controls['VisitFrequency'].hasError('required') && submitted" class="text-danger error">Visit frequency is required.</div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="col-form-label" for="ServiceType">Service Type<span class="text-danger">*</span></label>
+                    <ng-select
+                      class="ng-select-control"
+                      [items]="services"
+                      bindLabel="value"
+                      bindValue="id"
+                      [clearable]="false"
+                      [searchable]="false"
+                      (change)="getFeeRange()"
+                      placeholder="Select Service Type"
+                      id="ServiceType"
+                      formControlName="ServiceType"
+                    ></ng-select>
+
+                    <div *ngIf="scheduleVisitForm.controls['ServiceType'].hasError('required') && submitted" class="text-danger error">Service type is required.</div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="col-form-label" for="SchedulePreference">Schedule Preference<span class="text-danger">*</span></label>
+                    <!--<input type="text" class="form-control input-underline input-lg" placeholder="{{'Schedule Preference'}}" id="SchedulePreference" formControlName="SchedulePreference">-->
+                    <ng-select
+                      class="ng-select-control"
+                      placeholder="Schedule Preference"
+                      [clearable]="false"
+                      [items]="schedulepreference_list"
+                      bindLabel="value"
+                      formControlName="SchedulePreference"
+                      id="SchedulePreference"
+                    ></ng-select>
+
+                    <div *ngIf="scheduleVisitForm.controls['SchedulePreference'].hasError('required') && submitted" class="text-danger error">Schedule preference is required.</div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="col-form-label" for="GenderPreference">Gender Preference<span class="text-danger">*</span></label>
+                    <ng-select
+                      class="ng-select-control"
+                      [items]="gender"
+                      bindLabel="value"
+                      bindValue="value"
+                      [clearable]="false"
+                      [searchable]="false"
+                      placeholder="Gender Preference"
+                      id="GenderPreference"
+                      formControlName="GenderPreference"
+                    ></ng-select>
+
+                    <div *ngIf="scheduleVisitForm.controls['GenderPreference'].hasError('required') && submitted" class="text-danger error">Gender preference is required.</div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="col-form-label" for="LanguagePreference">Language Preference<span class="text-danger">*</span></label>
+                    <ng-select
+                      class="ng-select-control"
+                      [items]="languages"
+                      bindLabel="value"
+                      bindValue="id"
+                      [clearable]="false"
+                      [searchable]="false"
+                      [multiple]="true"
+                      placeholder="Language Preference"
+                      id="LanguagePreference"
+                      formControlName="LanguagePreference"
+                    ></ng-select>
+
+                    <div *ngIf="scheduleVisitForm.controls['LanguagePreference'].hasError('required') && submitted" class="text-danger error">Language preference is required.</div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="col-form-label" for="VisitFees">Max Visit Fees<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control input-underline input-lg" placeholder="{{'Max Visit Fees'}}" id="VisitFees" formControlName="VisitFees" mask="0000">
+
+                    <div *ngIf="scheduleVisitForm.controls['VisitFees'].hasError('required') && submitted" class="text-danger error">Max visit fees is required.</div>
+                    <div *ngIf="scheduleVisitForm.controls['VisitFees'].hasError('pattern') && submitted" class="text-danger error">Max fees is invalid.</div>
+                    <div *ngIf="(scheduleVisitForm.controls['VisitFees'].hasError('min') || scheduleVisitForm.controls['VisitFees'].hasError('max'))" class="text-danger error">Fee Range must be between {{feeRange?.minValue}} - {{feeRange?.maxValue}}.</div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="col-form-label" for="VisitZipcode">Visit Zipcode </label>
+                    <input type="text" class="form-control input-underline input-lg" placeholder="{{'Visit Zipcode'}}" id="VisitZipcode" mask="00000" formControlName="VisitZipcode">
+
+                    <div *ngIf="scheduleVisitForm.controls['VisitZipcode'].hasError('required') && submitted" class="text-danger error">Visit zipcode is required.</div>
+                    <div *ngIf="scheduleVisitForm.controls['VisitZipcode'].hasError('minlength') && submitted" class="text-danger error">Visit zipcode has to be 5 digits.</div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="form-group">
+                    <label class="col-form-label" for="AgencyNotes">Agency Notes<span class="text-danger">*</span></label>
+                    <textarea class="form-control input-underline input-lg" cols="30" rows="5" placeholder="{{'Agency Notes'}}" id="AgencyNotes" formControlName="AgencyNotes"></textarea>
+
+                    <div *ngIf="scheduleVisitForm.controls['AgencyNotes'].hasError('required') && submitted" class="text-danger error">Agency notes is required.</div>
+                  </div>
+                </div>
+
+                <div class="col-12 mt-3" *ngIf="user?.role == 'AGENCY'">
+                  <button type="submit" class="primary-gradient-btn" (click)="onSubmit()">{{ type != 1 ? 'Search Clinician' : 'Schedule Visit'}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+
+    <div class="col-xl-6">
+      <div class="card header-with-border mb-4">
+        <div class="card-header">
+          {{ type != 1 ? 'Available Clinicians' : 'Selected Clinician'}}
+          <button class="btn btn-outline-primary btn-radius pull-right" *ngIf="clinicians_list?.length > 0 && type != 1" (click)="sendReq()">Send Visit Request</button>
+
+        </div>
+        <div class="card-body">
+          <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+
+
+            <ng-container *ngFor="let m of markers; let i = index">
+
+              <agm-marker (markerClick)="clickedMarker(m.label, i)" [latitude]="m.lat" [longitude]="m.lng" [label]="''" [iconUrl]="m.icon" *ngIf="m.isShown">
+
+                <agm-info-window>
+                  <div>{{m.content}}</div>
+                </agm-info-window>
+
+              </agm-marker>
+
+            </ng-container>
+
+            <agm-circle [latitude]="radiusLat" [longitude]="radiusLong" [radius]="radius" [fillColor]="'red'"
+                        [circleDraggable]="true" [editable]="false" (dragEnd)="radiusDragEnd($event)"
+                        (radiusChange)="event('radiusChange',$event)">
+            </agm-circle>
+
+          </agm-map>
+
+          <div *ngIf="clinicians_list?.length == 0 && visitId != ''" class="miles-btn-sections mt-3">
+            <button [class]="radius == 8046.72 ? 'primary-gradient-btn my-2 mr-3' : 'btn btn-outline-primary btn-radius my-2 mr-3'" (click)="changeRadius(5,8046.72)">5 Miles</button>
+            <button [class]="radius == 16093.4 ? 'primary-gradient-btn my-2 mr-3' : 'btn btn-outline-primary btn-radius my-2 mr-3'" (click)="changeRadius(10,16093.4)">10 Miles</button>
+            <button [class]="radius == 24140.2 ? 'primary-gradient-btn my-2 mr-3' : 'btn btn-outline-primary btn-radius my-2 mr-3'"(click)="changeRadius(15,24140.2)">15 Miles</button>
+            <button [class]="radius == 32186.9 ? 'primary-gradient-btn my-2 mr-3' : 'btn btn-outline-primary btn-radius my-2 mr-3'" (click)="changeRadius(20,32186.9)">20 Miles</button>
+          </div>
+
+        </div>
+      </div>
+      <div class="row align-items-center" *ngIf="type != 1">
+        <div class="col-auto">
+          <div class="form-group">
+            <button class="btn btn-outline-primary btn-radius" (click)="selectAllClinicians()">Select All</button>
+          </div>
+        </div>
+        <div class="col">
+          <div class="row">
+            <div class="col-sm-7 col-xs-12">
+              <div class="form-group">
+                <input type="text" (input)="filterClinicians($event,'name')" class="form-control" placeholder="Search Clinician">
+              </div>
+            </div>
+            <div class="col">
+              <div class="row align-items-center">
+                <div class="col">
+                  <ng-select
+                    class="ng-select-control"
+                    [items]="sortBy"
+                    bindLabel="value"
+                    bindValue="id"
+                    [clearable]="false"
+                    [searchable]="false"
+                    placeholder="Sort By"
+                    id="sortBy"
+                    (change)="filterClinicians($event,'sort')"
+                  ></ng-select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="clinicians_list?.length == 0 && visitId != ''"> <!--*ngIf="clinicians_list?.length == 0 && visitId != ''-->
+        <div class="row mt-2">
+          <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+              <input type="number" [(ngModel)]="VisitFees" class="form-control input-underline input-lg" placeholder="{{'Max Visit Fees'}}" id="VisitFees">
+            </div>
+          </div>
+
+          <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+              <input type="text" class="form-control input-underline input-lg" placeholder="Incentive">
+            </div>
+          </div>
+        </div>
+        <div class="row align-items-center">
+          <div class="col">
+            <textarea type="text" class="form-control input-underline input-lg" placeholder="Nearby Zipcodes" [(ngModel)]="nearby_zipcode" rows="3"></textarea>
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-outline-primary btn-radius" (click)="searchClinicians()">Search Clinician</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="clinicians_list?.length > 0">
+        <div class="col-xl-4 mb-4" *ngFor="let clinician of clinicians_list| paginate: { itemsPerPage: pageSize, currentPage: p, totalItems : totalDataCount }">
+          <div class="card user-card clinician-card h-100 mb-0">
+            <div class="card-header d-flex justify-content-between">
+              <div></div>
+              <div class="actions-wrapper">
+                <div class="select-checkbox-wrapper">
+                  <label class="select-checkbox">
+                    <input type="checkbox" (change)="clinician.checked = $event.target.checked" [checked]="clinician.checked">
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="card-body p-relative">
+              <div class="avatar-section text-center">
+                <img src="{{contentUrl}}{{clinician.profileImage}}" alt="Avatar" width="80" class="rounded-circle">
+              </div>
+              <div class="name">{{clinician.firstName}} {{clinician.lastName}}</div>
+              <div class="info-text patient-type">{{clinician.patientType}}</div>
+              <div class="d-flex justify-content-center align-items-center mb-2">
+                <div class="review mb-0">
+                  <star-rating [value]="clinician.averageRating" [totalstars]="5" checkedcolor="#f2cc00" uncheckedcolor="#999999" size="19"  [readonly]="true"
+                               style="display: inline-block"></star-rating>
+
+                </div>
+              </div>
+              <div class="address">{{clinician.addressLine}}, {{ clinician.city}}, {{( clinician.stateCode ? clinician.stateCode: clinician.state)}}, {{ clinician.zipCode}}</div>
+              <div class="other-details-fixed">
+                <div class="other-details  d-flex justify-content-between align-items-center">
+                  <div class="bg-check">B/G Check:
+                    <span *ngIf="clinician.backgroudVerficationStatus" class="text-success">Done</span>
+                    <span *ngIf="!clinician.backgroudVerficationStatus" class="text-danger">Pending</span>
+                  </div>
+                  <div class="fees">${{clinician.perVisitRate}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4" *ngIf="clinicians_list?.length == 0">
+        <div class="col-12 text-center">
+          No Clinicians
+        </div>
+      </div>
+
+      <pagination-controls *ngIf="totalDataCount > 0" (pageChange)="p = $event" (pageChange)="pageChanged($event)" style="float: right;"></pagination-controls>
+
+    </div>
+
+  </div>
+
+</div>
+

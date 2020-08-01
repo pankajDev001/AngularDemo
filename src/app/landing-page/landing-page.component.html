@@ -1,0 +1,475 @@
+<header>
+  <div class="social-header">
+    <div class="container">
+      <div class="row d-flex justify-content-center justify-content-sm-between">
+        <div class="contact-details">
+          <ul>
+            <li class="call"><a href="javascript:;"><img src="assets/images/landing-pgae/call-light.svg" alt=""> <span class="d-none d-md-inline ml-2">(00) 000 111 2222</span></a></li>
+            <li class="mail"><a href="mailto:example@example.com"><img src="assets/images/landing-pgae/mail-light.svg" alt=""> <span class="d-none d-md-inline ml-2"> example@example.com</span></a></li>
+          </ul>
+        </div>
+        <div class="social-details">
+          <ul>
+            <li><a href="javascript:;"><img src="assets/images/landing-pgae/facebook-light.svg" alt="facebook"></a></li>
+            <li><a href="javascript:;"><img src="assets/images/landing-pgae/twitter-light.svg" alt="twitter"></a></li>
+            <li><a href="javascript:;"><img src="assets/images/landing-pgae/youtube-light.svg" alt="youtube"></a></li>
+            <li><a href="javascript:;"><img src="assets/images/landing-pgae/instagram-light.svg" alt="instagram"></a></li>
+            <li><a href="javascript:;"><img src="assets/images/landing-pgae/linkedin-light.svg" alt="linkedin"></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="navigation-header" [ngClass]="isSticky ? 'fixed-top': ''">
+    <div class="navbar-wrapper">
+      <nav class="navbar container navbar-expand-lg">
+        <a class="navbar-brand"><img src="assets/images/Final-Logo.png" alt="hhp logo" width="140"></a>
+
+        <button class="navbar-toggler" type="button" (click)="toggleSidebar()">
+          <i class="fa fa-bars" aria-hidden="true"></i>
+        </button>
+
+        <div class="navbar-collapse collapse" [ngClass]="collapsed ? 'show' : ''">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a  class="nav-link" [ngClass]="currentSection==='section1' ? 'active': ''" (click)="scrollTo('section1')">Home</a></li>
+            <li class="nav-item"><a  class="nav-link" [ngClass]="currentSection==='section2' ? 'active': ''" (click)="scrollTo('section2')">Agency</a></li>
+            <li class="nav-item"><a  class="nav-link" [ngClass]="currentSection==='section3' ? 'active': ''" (click)="scrollTo('section3')">Clinicians</a></li>
+            <li class="nav-item"><a  class="nav-link" [ngClass]="currentSection==='section4' ? 'active': ''" (click)="scrollTo('section4')">Success Stories</a></li>
+            <li class="nav-item"><a  class="nav-link" [ngClass]="currentSection==='section5' ? 'active': ''" (click)="scrollTo('section5')">Download App</a></li>
+            <li class="nav-item"><a [routerLink]="['/login']" class="nav-link">Login</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+<div id="parentDiv" scrollSpy [spiedTags]="['DIV']" (sectionChange)="onSectionChange($event)">
+  <div class="home-section" id="section1">
+    <owl-carousel-o [options]="homeOptions">
+ 
+      <ng-container *ngFor="let slide of homeSlide">
+        <ng-template carouselSlide>
+          <div class="home-slide" [ngStyle]="{'background-image': 'url(' + slide.src + ')'}"></div>
+        </ng-template>
+      </ng-container>
+   
+    </owl-carousel-o>
+    <div class="container">
+      <h1>Connecting Care Anytime, Anywhere</h1>
+      <p>HomeHealthPRO offers scheduling and staffing solution that gives home-healthcare agencies and clinicians a secure, easy-to-use platform to connect and 
+        deliver timely patient care.</p>
+
+      <div class="button-section">
+        <a [routerLink]="['/login']">I am with an Agency</a>
+        <a href="javascript:;" (click)="scrollTo('section5')">I am a Clinician</a>
+      </div>
+
+      <div class="home-mock-up">
+        <img src="assets/images/landing-pgae/Device-Mockup.png" alt="">
+      </div>
+      
+    </div>
+  </div>
+  <div class="section pb-md-5">
+    <div class="container">
+      <div class="features-section">
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+            <div class="feature-content">
+              <div class="heading">
+                <div class="icon">
+                  <img src="assets/images/landing-pgae/Features/2 Factor Authentication.svg" alt="icon">
+                </div>
+                <div class="header">2 Factor Authentication</div>
+              </div>
+              <p>Secure accessibility to the system with 2 factor authentication by having OTP feature in-place while Sign-IN.</p>
+            </div>
+          </div>
+  
+          <div class="col-sm-12 col-md-6">
+            <div class="feature-content">
+              <div class="heading">
+                <div class="icon">
+                  <img src="assets/images/landing-pgae/Features/Escrow.svg" alt="icon">
+                </div>
+                <div class="header">Escrow</div>
+              </div>
+              <p>Integration with world’s most secure payment method from a counterparty risk perspective - safeguarding both 
+                buyer and seller, keeping all transacted funds in trust.</p>
+            </div>
+          </div>
+  
+          <div class="col-sm-12 col-md-6">
+            <div class="feature-content">
+              <div class="heading">
+                <div class="icon">
+                  <img src="assets/images/landing-pgae/Features/Nearby Visits.svg" alt="icon">
+                </div>
+                <div class="header">Nearby Visits</div>
+              </div>
+              <p>Helps to check nearby visits for Clinicians in order to prioritize and opt for visits.</p>
+            </div>
+          </div>
+  
+          <div class="col-sm-12 col-md-6">
+            <div class="feature-content">
+              <div class="heading">
+                <div class="icon">
+                  <img src="assets/images/landing-pgae/Features/Translator Service.svg" alt="icon">
+                </div>
+                <div class="header">Translator Service</div>
+              </div>
+              <p>Helps for effective and smooth multilingual communication between Clinician and Agency.</p>
+            </div>
+          </div>
+
+          <div class="col-sm-12 col-md-6">
+            <div class="feature-content">
+              <div class="heading">
+                <div class="icon">
+                  <img src="assets/images/landing-pgae/Features/Background Verification _ Documents Validation.svg" alt="icon">
+                </div>
+                <div class="header">Background Verification & Document's Validation</div>
+              </div>
+              <p>Secure Background Verification and Validation of Clinician's Documents to track qualified 
+                and genuine clinicians.</p>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="feature-content">
+              <div class="heading">
+                <div class="icon">
+                  <img src="assets/images/landing-pgae/Features/Real time Notifications.svg" alt="icon">
+                </div>
+                <div class="header">Real-Time Notifications</div>
+              </div>
+              <p>Lightning fast Notifications back-n-forth from Clinician to Agency and vice-versa to speed-up the process.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="agency-section category-section" id="section2">
+    <div class="container">
+      <h2>Home Health Agency</h2>
+      <p class="sub-title">HomeHealthPRO solves scheduling and staffing issues by connecting agencies and qualified clinicians to provide timely care. 
+        HomeHealthPRO provides a safety net for agencies when a clinician leaves or is ill and cannot complete scheduled visits.
+      </p>
+
+      <div class="mockup-section agencyDashboard">
+        <img class="img-fluid img-rounded" src="../../assets/images/landing-pgae/AgencyDashboard.PNG" alt="agency mockup">
+      </div>
+
+     
+
+      <div class="how-it-works-section">
+        <h2>Here’s how it works</h2>
+
+        <div class="process-section d-none d-lg-block">
+          <div class="row align-items-center">
+            <div class="col-md-4">
+              <div class="process-content text-right" [ngClass]="{'active' : isAgency === 'one'}" (mouseover)="overAgency('one')">
+                <div class="process-icon-wrapper">
+                  <div class="process-icon ml-auto">
+                    <img src="assets/images/landing-pgae/Agency/Simple Sign UP _ then Sign IN.svg" alt="">
+                  </div>
+                </div>
+                <div class="heading">Simple Sign UP & then Sign IN</div>
+                <p>Secured yet simple access with 2 Factor authentication with OTP in-place.</p>
+              </div>
+
+              <div class="process-content text-right" [ngClass]="{'active' : isAgency === 'two'}" (mouseover)="overAgency('two')">
+                <div class="process-icon-wrapper">
+                  <div class="process-icon ml-auto">
+                    <img src="assets/images/landing-pgae/Agency/Modify Agency Profile.svg" alt="">
+                  </div>
+                </div>
+                <div class="heading">Modify Agency Profile</div>
+                <p>Modify details of your profile anytime.</p>
+              </div>
+
+              <div class="process-content text-right" [ngClass]="{'active' : isAgency === 'three'}" (mouseover)="overAgency('three')">
+                <div class="process-icon-wrapper">
+                  <div class="process-icon ml-auto">
+                    <img src="assets/images/landing-pgae/Agency/Add Patients.svg" alt="">
+                  </div>
+                </div>
+                <div class="heading">Add Patients</div>
+                <p>Add up all the patients to whom you want to provide the treatment or service.</p>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="mockup-section">
+                <div class="agency-thumb" [ngClass]="{'active' : isAgency === ''}"><img src="assets/images/landing-pgae/mobile/Agency/Dashboard agency.png" alt=""></div>
+                <div class="agency-thumb" [ngClass]="{'active' : isAgency === 'one'}"><img src="assets/images/landing-pgae/mobile/Agency/1.png" alt=""></div>
+                <div class="agency-thumb" [ngClass]="{'active' : isAgency === 'two'}"><img src="assets/images/landing-pgae/mobile/Agency/2.png" alt=""></div>
+                <div class="agency-thumb" [ngClass]="{'active' : isAgency === 'three'}"><img src="assets/images/landing-pgae/mobile/Agency/3.png" alt=""></div>
+                <div class="agency-thumb" [ngClass]="{'active' : isAgency === 'four'}"><img src="assets/images/landing-pgae/mobile/Agency/4.png" alt=""></div>
+                <div class="agency-thumb" [ngClass]="{'active' : isAgency === 'five'}"><img src="assets/images/landing-pgae/mobile/Agency/5.png" alt=""></div>
+                <div class="agency-thumb" [ngClass]="{'active' : isAgency === 'six'}"><img src="assets/images/landing-pgae/mobile/Agency/6.png" alt=""></div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="process-content" [ngClass]="{'active' : isAgency === 'four'}" (mouseover)="overAgency('four')">
+                <div class="process-icon-wrapper">
+                  <div class="process-icon">
+                    <img src="assets/images/landing-pgae/Agency/Check Clinicians.svg" alt="">
+                  </div>
+                </div>
+                <div class="heading">Check Clinicians </div>
+                <p>Check the number of clinicians signed-up to system.</p>
+              </div>
+
+              <div class="process-content" [ngClass]="{'active' : isAgency === 'five'}" (mouseover)="overAgency('five')">
+                <div class="process-icon-wrapper">
+                  <div class="process-icon">
+                    <img src="assets/images/landing-pgae/Agency/Schedule Visit.svg" alt="">
+                  </div>
+                </div>
+                <div class="heading">Schedule Visit</div>
+                <p>Create visits for patient with suitable & nearby clinician as per requirements given by Patient.</p>
+              </div>
+
+              <div class="process-content" [ngClass]="{'active' : isAgency === 'six'}" (mouseover)="overAgency('six')">
+                <div class="process-icon-wrapper">
+                  <div class="process-icon">
+                    <img src="assets/images/landing-pgae/Agency/Payment Report.svg" alt="">
+                  </div>
+                </div>
+                <div class="heading">Payment Report</div>
+                <p>Track details of payment and all its disbursement regards to visits.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <owl-carousel-o [options]="agencyOptions" class="agencySlider d-block d-lg-none">
+ 
+          <ng-container *ngFor="let slide of agencySlide">
+            <ng-template carouselSlide>
+              <div class="slide">
+                <div class="mockup-section">
+                  <img [src]="slide.src" alt="">
+                </div>                
+                <div class="process-content text-center">
+                  <div class="process-icon-wrapper">
+                    <div class="process-icon">
+                      <img [src]="slide.icon" alt="">
+                    </div>
+                  </div>
+                  <div class="heading">{{slide.title}}</div>
+                  <p>{{slide.desc}}</p>
+                </div>
+              </div>
+            </ng-template>
+          </ng-container>
+       
+        </owl-carousel-o>
+      </div>
+    </div>
+  </div>
+
+  <div class="clinician-section category-section"  id="section3">
+    <div class="container">
+      <h2>Home Health Clinician</h2>
+      <p class="sub-title">HomeHealthPRO enables clinicians to conveniently pick-up visits for agencies in your area along with empowering them to complete 
+        home health visits anytime, anywhere, at rates that work for them. Clinicians can take control of their schedules, find additional home health visits, 
+        make extra money, and get paid faster!</p>
+
+     
+
+
+      <div class="how-it-works-section">
+        <h2>Here’s how it works</h2>
+
+        <div class="process-section  d-none d-lg-block">
+          <div class="row align-items-center">
+            <div class="col-md-4">
+              <div class="process-content text-right" [ngClass]="{'active' : isClinician === 'one'}" (mouseover)="overClinician('one')">
+                <div class="process-icon-wrapper">
+                  <div class="process-icon ml-auto">
+                    <img src="assets/images/landing-pgae/Clinicians/Simple Sign UP _ then Sign IN.svg" alt="">
+                  </div>
+                </div>
+                <div class="heading">Simple Sign UP & then Sign IN</div>
+                <p>Secured yet simple access with 2 Factor authentication with OTP in-place.</p>
+              </div>
+
+              <div class="process-content text-right" [ngClass]="{'active' : isClinician === 'two'}" (mouseover)="overClinician('two')">
+                <div class="process-icon-wrapper">
+                  <div class="process-icon ml-auto">
+                    <img src="assets/images/landing-pgae/Clinicians/Modify Clinician Profile.svg" alt="">
+                  </div>
+                </div>
+                <div class="heading">Modify Clinician Profile</div>
+                <p>Modify details of your profile with specifying your coverage area (zipcodes) with service time.</p>
+              </div>
+
+              <div class="process-content text-right" [ngClass]="{'active' : isClinician === 'three'}" (mouseover)="overClinician('three')">
+                <div class="process-icon-wrapper">
+                  <div class="process-icon ml-auto">
+                    <img src="assets/images/landing-pgae/Clinicians/Nearby visits.svg" alt="">
+                  </div>
+                </div>
+                <div class="heading">Nearby visits</div>
+                <p>See the nearby visits of your area and accept the visit request based on your preference & priority.</p>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="mockup-section">
+                <div class="agency-thumb" [ngClass]="{'active' : isClinician === ''}"><img src="assets/images/landing-pgae/mobile/Clinician/Dashboard clinician.png" alt=""></div>
+                <div class="agency-thumb" [ngClass]="{'active' : isClinician === 'one'}"><img src="assets/images/landing-pgae/mobile/Clinician/1.png" alt=""></div>
+                <div class="agency-thumb" [ngClass]="{'active' : isClinician === 'two'}"><img src="assets/images/landing-pgae/mobile/Clinician/2.png" alt=""></div>
+                <div class="agency-thumb" [ngClass]="{'active' : isClinician === 'three'}"><img src="assets/images/landing-pgae/mobile/Clinician/3.png" alt=""></div>
+                <div class="agency-thumb" [ngClass]="{'active' : isClinician === 'four'}"><img src="assets/images/landing-pgae/mobile/Clinician/4.png" alt=""></div>
+                <div class="agency-thumb" [ngClass]="{'active' : isClinician === 'five'}"><img src="assets/images/landing-pgae/mobile/Clinician/5.png" alt=""></div>
+                <div class="agency-thumb" [ngClass]="{'active' : isClinician === 'six'}"><img src="assets/images/landing-pgae/mobile/Clinician/6.png" alt=""></div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="process-content" [ngClass]="{'active' : isClinician === 'four'}" (mouseover)="overClinician('four')">
+                <div class="process-icon-wrapper">
+                  <div class="process-icon">
+                    <img src="assets/images/landing-pgae/Clinicians/Accept Visits.svg" alt="">
+                  </div>
+                </div>
+                <div class="heading">Accept Visits </div>
+                <p>Accept or Reject Visits requested by Agency based on your availability.</p>
+              </div>
+
+              <div class="process-content" [ngClass]="{'active' : isClinician === 'five'}" (mouseover)="overClinician('five')">
+                <div class="process-icon-wrapper">
+                  <div class="process-icon">
+                    <img src="assets/images/landing-pgae/Clinicians/Check-In _ Check-OUT.svg" alt="">
+                  </div>
+                </div>
+                <div class="heading">Check-In & Check-OUT</div>
+                <p>Once Agency assigned visit to you, start for check-in & then check-out by reaching out to patient for treatment.</p>
+              </div>
+
+              <div class="process-content" [ngClass]="{'active' : isClinician === 'six'}" (mouseover)="overClinician('six')">
+                <div class="process-icon-wrapper">
+                  <div class="process-icon">
+                    <img src="assets/images/landing-pgae/Clinicians/Payment Report.svg" alt="">
+                  </div>
+                </div>
+                <div class="heading">Payment Report</div>
+                <p>Track details of payment and all its disbursement for all your visits to know your earnings.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <owl-carousel-o [options]="agencyOptions" class="agencySlider d-block d-lg-none">
+ 
+          <ng-container *ngFor="let slide of clinicianSlide">
+            <ng-template carouselSlide>
+              <div class="slide">
+                <div class="mockup-section">
+                  <img [src]="slide.src" alt="">
+                </div>                
+                <div class="process-content text-center">
+                  <div class="process-icon-wrapper">
+                    <div class="process-icon">
+                      <img [src]="slide.icon" alt="">
+                    </div>
+                  </div>
+                  <div class="heading">{{slide.title}}</div>
+                  <p>{{slide.desc}}</p>
+                </div>
+              </div>
+            </ng-template>
+          </ng-container>
+       
+        </owl-carousel-o>
+      </div>
+    </div>
+  </div>
+
+  <div class="success-story-section bg-white"  id="section4">
+    <div class="container">
+      <h2>Success Stories</h2>
+      <owl-carousel-o [options]="customOptions">
+        <ng-container *ngFor="let slide of storySlide">
+          <ng-template carouselSlide [id]="slide.id">
+            <div class="slide">
+              <div class="story-box">
+                <div class="quote">
+                  <img src="assets/images/quote.png" alt="">
+                </div>
+                <div class="quote-content">
+                  <p>{{slide.story}}</p>
+                  <h6 class="name">{{slide.name}}</h6>
+                  <p class="position">{{slide.position}}</p>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ng-container> 
+      </owl-carousel-o>
+    </div>
+  </div>
+
+
+  <div class="download-section"  id="section5">
+    <div class="container">
+      <h2>Download the HomeHealthPRO app now!</h2>
+      <p>Mobile app is available for both Clinician and Agency. If you are with agency, then get this download at your side and start scheduling visits for your patients.
+        If you are a Clinician, then download this app and start collecting visits from your area and earn more.
+       </p>
+      <div class="download-button">
+        <a href="javascript:;"><img src="assets/images/landing-pgae/apple-light.svg" alt="apple icon"><span>iphone</span></a>
+        <a href="javascript:;"><img src="assets/images/landing-pgae/android-light.svg" alt="android icon"><span>android</span></a>
+      </div>
+    </div>
+  </div>
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="foo-widget">
+          <h4>About Us</h4>
+          <p>HomeHealthPRO is a scheduling and staffing solution in HealthCare domain that helps agency to schedule visits for their patients and allocate a best 
+            suited qualified Clinician for patient's treatment.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="foo-widget">
+          <h4>Call Us</h4>
+          <p>(00) 000 111 222</p>
+          <h4 class="mt-4">Send Us Mail</h4>
+          <p>example@example.com</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="foo-widget">
+          <h4>Keep In Touch</h4>
+          <ul class="foo-social">
+            <li><a href=""><i class="fa fa-facebook-official"></i></a></li>
+            <li><a href=""><i class="fa fa-twitter"></i></a></li>
+            <li><a href=""><i class="fa fa-youtube-play"></i></a></li>
+            <li><a href=""><i class="fa fa-instagram"></i></a></li>
+            <li><a href=""><i class="fa fa-linkedin"></i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="foo-link">
+      <a href="">Home</a>
+      <a href="">Agency</a>
+      <a href="">Clinician</a>
+      <a href="">Success Stories</a>
+      <a href="">Contact Us</a>
+    </div> -->
+    <div class="copyright">
+      © 2020 HomeHealthPRO. All Rights Reserved.
+    </div>
+  </div>
+</footer>
+</div>

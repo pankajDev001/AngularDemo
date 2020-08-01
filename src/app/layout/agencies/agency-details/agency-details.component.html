@@ -1,0 +1,175 @@
+<div class="row page-header-wrapper shadow-sm">
+  <div class="col">
+    <h2 class="page-header has-breadcrumb">{{agencyDetail?.agencyName}}
+
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a [routerLink]="['/agencies']">Agencies</a>
+        </li>
+        <li class="breadcrumb-item">{{agencyDetail?.agencyName}}</li>
+      </ol>
+    </h2>
+  </div>
+  <div class="col-auto p-relative">
+      <button class="btn primary-gradient-btn btn-filter" (click)="onFilterToggle($event)"><span class="filter-text mr-2">FILTERS</span> <i class="fa fa-filter"></i></button>
+      <div class="page-header-filter" [class.active]="classApplied">
+          <div class="form-group mb-0">
+              <label for="scheduled-visits-status" class="col-form-label">Visit Status</label>
+              <ng-select
+                class="ng-filter-control"
+                id="scheduled-visits-status"
+                [items]="scheduledVisits"
+                bindLabel="value"
+                [clearable]="false"
+                [searchable]="false"
+                dropdownPosition="bottom"
+                placeholder="Select Status"
+                (change)="onChangePatientVisit($event)"
+                [(ngModel)]="scheduledVisits[0]"
+              >
+              </ng-select>
+            </div>
+      </div>
+  </div>
+</div>
+<div [@routerTransition]>
+  <div class="detail-section">
+    <div class="left-section">
+      <div class="card user-card user-details-card">
+        <div class="card-header d-flex justify-content-between">
+          <div class="active-inactive">
+            <label class="switch">
+              <input type="checkbox" [checked]="agencyDetail?.active" (change)="changeStatus($event)">
+              <span class="slider round"></span>
+            </label>
+          </div>
+          <div class="actions-wrapper">
+            <div class="edit">
+              <a (click)="editAgency(agencyDetail?.userId)" placement="top" ngbTooltip="Edit">
+                <div class="icon-wrapper">
+                  <i class="fa fa-pencil"></i>
+                </div>
+              </a>
+            </div>
+            <div class="delete">
+              <a (click)="deleteAgency(agencyDetail?.userId)" placement="top" ngbTooltip="Delete">
+                <div class="icon-wrapper">
+                  <i class="fa fa-trash"></i>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body" *ngIf="agencyDetail">
+          <div class="user-details d-flex">
+            <div class="user-avatar-section">
+              <img src="{{contentUrl}}{{agencyDetail?.profileImage}}" alt="" width="80" class="rounded-circle" *ngIf="agencyDetail?.profileImage">
+            </div>
+            <div class="user-avatar-details">
+              <div class="name-text-style">{{agencyDetail?.agencyName}}</div>
+              <div (click)="onRate($event,agencyDetail)" class="reviews-text-style">
+                <star-rating [value]="agencyDetail?.averageRating" [totalstars]="5" checkedcolor="#f2cc00" uncheckedcolor="#999999" size="19" [readonly]="true"
+                             style="display: inline-block"></star-rating>
+
+                ({{ (agencyDetail ? agencyDetail?.averageRating  : '0.0') | number:'1.1-1'}} / {{agencyDetail ? agencyDetail?.totalRatings : '0'}} Reviews)
+              </div>
+              <div class="contact-text-style">
+                <span>Phone: {{agencyDetail?.contactNo}}</span>
+                <span>Email: {{agencyDetail?.email | lowercase}}</span>
+              </div>
+              <div class="address-text-style">{{agencyDetail?.addressLine}}, {{agencyDetail?.city}}, {{agencyDetail?.stateCode}}, {{agencyDetail?.zipCode}}</div>
+              <div class="other-details d-flex align-items-center">
+                <div class="card-label">B/G Check:
+                  <span class="text-success font-weight-bold" *ngIf="agencyDetail?.backgroudVerficationStatus;else bgPending">Done</span>
+                  <ng-template #bgPending>
+                    <span class="text-danger font-weight-bold">
+                      Pending
+                    </span>
+                  </ng-template>
+                </div>
+                <!-- <div class="card-label">SSN:
+                  <span class="font-weight-bold">
+                    <a class="text-primary">535-17-XXXX</a>
+                  </span>
+                </div> -->
+              </div>
+            </div>
+          </div>
+          <!-- <div class="row">
+            <div class="col-12">
+              <div class="skills-text-style">Skills:- Physical Therapy, Occupational Therapy, Speech Therapy, Social Workers, Registered Nurses, Licensed
+                Vocational Nurses, and Certified Nursing Assistants.</div>
+            </div>
+            <div class="col-12">
+              <div class="visits-status">
+                <div class="row d-flex flex-wrap">
+                  <div class="card-label col-4 mb-1">All Scheduled Visits:
+                    <span class="font-weight-bold">450</span>
+                  </div>
+                  <div class="card-label col-4 mb-1">Completed Visits:
+                    <span class="text-success font-weight-bold">200</span>
+                  </div>
+                  <div class="card-label col-4 mb-1">Pending Visits:
+                    <span class="text-warning font-weight-bold">230</span>
+                  </div>
+                  <div class="card-label col-4 mb-1">Cancelled Visits:
+                    <span class="text-danger font-weight-bold">20</span>
+                  </div>
+                  <div class="card-label col-4 mb-1">Total Patients:
+                    <span class="text-primary font-weight-bold">205</span>
+                  </div>
+                  <div class="card-label col-4 mb-1">Agency Staff:
+                    <span class="font-weight-bold">03</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+          <div class="documents-sections">
+            <div class="section-title" *ngIf="agencyDocuments?.length > 0">Documents</div>
+            <div class="section-title" *ngIf="!agencyDocuments?.length > 0">No Documents available</div>
+
+            <div class="row">
+              <div class="col-6" *ngFor="let document of agencyDocuments">
+                <div class="document-wrapper d-flex align-items-center">
+                  <div class="document-thumbnail">
+                    <a href="{{contentUrl}}{{document.documentPath}}" target="_blank">
+                      <img src="{{contentUrl}}{{document.documentPath}}" alt="" class="img-responsive">
+                    </a>
+                    <!-- <span class="doc-icon"><img src="assets/images/green-check.png" alt=""></span> -->
+                  </div>
+                  <div class="document-title">{{document.documentName}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="row revenue-section">
+        <div class="col-12 mb-4">
+          <div class="card">
+            <div class="card-header text-center">Total Expenditure</div>
+            <div class="card-body">
+
+              <div class="total-revenue">${{ agencyRevenue | number:'1.2-2' }}</div>
+              <div class="text-center">
+                <a class="btn btn-link" [routerLink]="['/payment-report']">View Details</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-section">
+      <div class="card">
+        <div class="card-header">Scheduled Visit</div>
+        <div class="card-body">
+          <table datatable [dtOptions]="dtOptions" id="patients-listing"></table>
+        </div>
+      </div>
+    </div>
+  </div>

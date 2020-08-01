@@ -1,0 +1,109 @@
+<div class="modal-header">
+  <h4 class="modal-title">Visit Requested/Accepted Clinicians</h4>
+  <button type="button" class="close" aria-label="Close" (click)="close()">
+    <img src="assets/images/close.svg" alt="close icon" width="25">
+  </button>
+</div>
+<div class="modal-body">
+  <div>
+  <div class="details-header"><h6>Accepted Clinicians</h6></div>
+  <div class="tab-pane fade show active" id="agency" role="tabpanel" aria-labelledby="agency-tab">
+    <table id="assign-clinician" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+      <thead>
+      <tr>
+        <th scope="col" width="45">Select</th>
+        <th scope="col">Clinician Name</th>
+        <th scope="col">Patient Type</th>
+        <th scope="col">Address</th>
+        <th scope="col">Visit Rate</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let visit of accepted_clinicians">
+        <td width="45" ></td>
+        <td>{{visit.fullName}}</td>
+        <td>{{visit.patientType ? visit.patientType : ''}}</td>
+        <td>{{visit.addressLine ? visit.addressLine +','+ visit.city +','+ visit.state +','+ visit.zipCode : '-'}}</td>
+        <td class="text-success text-center font-weight-bold">${{visit.perVisitRate ? visit.perVisitRate : '0.00'}}</td>
+        <td>{{visit.visitId}}</td>
+        <td>{{visit.clinicianId}}</td>
+
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+    <div class="pull-right p-2" *ngIf="accepted_clinicians?.length > 0">
+      <button type="button" class="btn primary-gradient-btn btn-filter" (click)="assignClinician()">Assign</button>
+
+    </div>
+  </div>
+
+  <br><br>
+  <div class="">
+    <div class="details-header"><h6>Rejected Clinicians</h6></div>
+    <div class="">
+      <div class="tab-pane fade show active" id="agency" role="tabpanel" aria-labelledby="agency-tab">
+        <table id="rejected-clinician" datatable [dtOptions]="dtOptions1" [dtTrigger]="dtTrigger">
+          <thead>
+          <tr>
+            <th scope="col">Clinician Name</th>
+            <th scope="col">Patient Type</th>
+            <th scope="col">Address</th>
+            <th scope="col">Visit Rate</th>
+            <th scope="col">Reason</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let visit of rejected_clinicians">
+            <td>{{visit.fullName}}</td>
+            <td>{{visit.patientType ? visit.patientType : ''}}</td>
+            <td>{{visit.addressLine ? visit.addressLine +','+ visit.city +','+ visit.state +','+ visit.zipCode : '-'}}</td>
+            <td class="text-success text-center font-weight-bold">${{visit.perVisitRate ? visit.perVisitRate : '0.00'}}</td>
+            <td>{{visit.declinedReason ? visit.declinedReason : '-'}}</td>
+
+          </tr>
+          </tbody>
+          <tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <br><br>
+  <div class="">
+    <div class="details-header"><h6>Unresponed Clinicians</h6></div>
+    <div class="">
+      <div class="tab-pane fade show active" id="agency" role="tabpanel" aria-labelledby="agency-tab">
+        <table id="rejected-clinician" datatable [dtOptions]="dtOptions2" [dtTrigger]="dtTrigger">
+          <thead>
+          <tr>
+            <th scope="col">Clinician Name</th>
+            <th scope="col">Patient Type</th>
+            <th scope="col">Address</th>
+            <th scope="col">Visit Rate</th>
+          </tr>
+          </thead>
+          <tbody >
+          <tr *ngFor="let visit of unresponed_clinicians">
+            <td>{{visit.fullName}}</td>
+            <td>{{visit.patientType ? visit.patientType : ''}}</td>
+            <td>{{visit.addressLine ? visit.addressLine +','+ visit.city +','+ visit.state +','+ visit.zipCode : '-'}}</td>
+            <td class="text-success text-center font-weight-bold">${{visit.perVisitRate ? visit.perVisitRate : '0.00'}}</td>
+
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-link" (click)="close()">Ok</button>
+</div>
+
+

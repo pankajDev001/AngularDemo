@@ -1,0 +1,209 @@
+<form [formGroup]="createPatientForm" autocomplete="off" (ngSubmit)="onSubmit()">
+  <div class="modal-header">
+    <h4 class="modal-title">Create Patient</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <img src="assets/images/close.svg" alt="close icon" width="25">
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="form-container bg-white">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-form-label" for="PatientName">Patient Name<span class="text-danger">*</span></label>
+            <input type="text" class="form-control input-underline input-lg" placeholder="{{'Patient Name'}}" formControlName="PatientName" id="PatientName">
+
+            <div *ngIf="createPatientForm.controls['PatientName'].hasError('required') && submitted" class="text-danger error">Patient Name is required.</div>
+            <div *ngIf="createPatientForm.controls['PatientName'].hasError('pattern') && submitted" class="text-danger error">Patient Name is invalid.</div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-form-label" for="PatientDOB">Patient DOB<span class="text-danger">*</span></label>
+            <div class="input-group">
+              <input type="text" class="form-control input-underline input-lg date" placeholder="{{ 'DOB: (MM/DD/YYYY)' }}" ngbDatepicker
+                (dateSelect)="onDateSelect()" #d="ngbDatepicker" id="PatientDOB" formControlName="PatientDOB" value="{{date}}" readonly tabindex="-1">
+              <div class="input-group-append">
+                <button class="btn calendar" type="button" (click)="d.toggle()">
+                  <i class="fa fa-calendar"></i>
+                </button>
+              </div>
+            </div>
+
+            <div *ngIf="createPatientForm.controls['PatientDOB'].hasError('required') && submitted" class="text-danger error">Patient DOB is required.</div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-form-label" for="PatientType">Patient Type<span class="text-danger">*</span></label>
+            <ng-select
+              class="ng-select-control"
+              [items]="patientTypes"
+              bindLabel="value"
+              bindValue="id"
+              [clearable]="false"
+              [searchable]="false"
+              placeholder="Select Patient Type"
+              formControlName="PatientType"
+              id="PatientType"
+            ></ng-select>
+
+            <div *ngIf="createPatientForm.controls['PatientType'].hasError('required') && submitted" class="text-danger error">Patient Type is required.</div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-form-label" for="PatientEmail">Email</label>
+            <input type="text" class="form-control input-underline input-lg" placeholder="{{'Email address'}}" formControlName="PatientEmail" id="PatientEmail">
+            
+            <div *ngIf="createPatientForm.controls['PatientEmail'].hasError('pattern') || createPatientForm.controls['PatientEmail'].hasError('email') && submitted" class="text-danger error">Email address is invalid.</div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-form-label" for="PatientPhone">Contact No<span class="text-danger">*</span></label>
+            <input type="text" class="form-control input-underline input-lg" placeholder="{{'Phone: (000-000-0000)'}}" formControlName="PatientPhone" mask="000-000-0000" id="PatientPhone">
+
+            <div *ngIf="createPatientForm.controls['PatientPhone'].hasError('required') && submitted" class="text-danger error">Phone number is required.</div>
+            <div *ngIf="createPatientForm.controls['PatientPhone'].hasError('pattern')" class="text-danger error">Only number is required.</div>
+            <div *ngIf="createPatientForm.controls['PatientPhone'].hasError('minlength') || createPatientForm.controls['PatientPhone'].hasError('maxlength') && submitted" class="text-danger error">Phone number should have 10 digits.</div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-form-label" for="PatientEmergencyContactName">Emergency Contact Name<span class="text-danger">*</span></label>
+            <input type="text" class="form-control input-underline input-lg" placeholder="{{'Emergency Contact Name'}}" formControlName="PatientEmergencyContactName" id="PatientEmergencyContactName">
+
+            <div *ngIf="createPatientForm.controls['PatientEmergencyContactName'].hasError('required') && submitted" class="text-danger error">Contact Name is required.</div>
+            <div *ngIf="createPatientForm.controls['PatientEmergencyContactName'].hasError('pattern') && submitted" class="text-danger error">Contact Name is invalid.</div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-form-label" for="PatientEmergencyContactPhone">Emergency Contact No<span class="text-danger">*</span></label>
+            <input type="text" class="form-control input-underline input-lg" placeholder="{{'Phone: (000-000-0000)'}}" formControlName="PatientEmergencyContactPhone" mask="000-000-0000" id="PatientEmergencyContactPhone">
+
+            <div *ngIf="createPatientForm.controls['PatientEmergencyContactPhone'].hasError('required') && submitted" class="text-danger error">Phone number is required.</div>
+            <div *ngIf="createPatientForm.controls['PatientEmergencyContactPhone'].hasError('pattern')" class="text-danger error">Only number is required.</div>
+            <div *ngIf="createPatientForm.controls['PatientEmergencyContactPhone'].hasError('minlength') || createPatientForm.controls['PatientEmergencyContactPhone'].hasError('maxlength') && submitted" class="text-danger error">Phone number should have 10 digits.</div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-form-label" for="PatientGender">Patient Gender<span class="text-danger">*</span></label>
+            <ng-select
+              class="ng-select-control"
+              [items]="gender"
+              bindLabel="value"
+              bindValue="value"
+              [clearable]="false"
+              [searchable]="false"
+              placeholder="Select Gender"
+              formControlName="PatientGender"
+              id="PatientGender"
+            ></ng-select>
+
+            <div *ngIf="createPatientForm.controls['PatientGender'].hasError('required') && submitted" class="text-danger error">Gender is required.</div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-form-label" for="PatientAddressLine">Address Line<span class="text-danger">*</span></label>
+            <input type="text" class="form-control input-underline input-lg" placeholder="{{'Address Line'}}" formControlName="PatientAddressLine" id="PatientAddressLine">
+
+            <div *ngIf="createPatientForm.controls['PatientAddressLine'].hasError('required') && submitted" class="text-danger error">Address line is required.</div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-form-label" for="State">State<span class="text-danger">*</span></label>
+            <ng-select
+              class="ng-select-control"
+              [items]="states"
+              bindLabel="value"
+              bindValue="id"
+              (change)="getCityList($event)"
+              [clearable]="false"
+              placeholder="Select State"
+              formControlName="State"
+              id="State"
+            ></ng-select>
+
+            <div *ngIf="createPatientForm.controls['State'].hasError('required') && submitted" class="text-danger error">State is required.</div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-form-label" for="City">City<span class="text-danger">*</span></label>
+            <ng-select
+              class="ng-select-control"
+              [items]="cities"
+              bindLabel="value"
+              bindValue="id"
+              (change)="getZipcodeList($event)"
+              [clearable]="false"
+              placeholder="Select City"
+              formControlName="City"
+              id="City"
+            ></ng-select>
+
+            <div *ngIf="createPatientForm.controls['City'].hasError('required') && submitted" class="text-danger error">City is required.</div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-form-label" for="Zipcode">Zip Code<span class="text-danger">*</span></label>
+            <ng-select
+              class="ng-select-control"
+              [items]="zipcodes"
+              bindLabel="value"
+              bindValue="value"
+              [clearable]="false"
+              placeholder="Select Zipcode"
+              formControlName="Zipcode"
+              id="Zipcode"
+            ></ng-select>
+
+            <div *ngIf="createPatientForm.controls['Zipcode'].hasError('required') &&  submitted" class="text-danger error">Zipcode is required.</div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-form-label" for="Diagnosis">Diagnosis<span class="text-danger">*</span></label>
+            <input type="text" class="form-control input-underline input-lg" placeholder="{{'Diagnosis'}}" formControlName="Diagnosis" id="Diagnosis">
+
+            <div *ngIf="createPatientForm.controls['Diagnosis'].hasError('required') && submitted" class="text-danger error">Diagnosis is required.</div>
+            <div *ngIf="createPatientForm.controls['Diagnosis'].hasError('pattern') && submitted" class="text-danger error">Diagnosis is invalid.</div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-form-label" for="InsuranceType">Insurance Type<span class="text-danger">*</span></label>
+            <input type="text" class="form-control input-underline input-lg" placeholder="{{'Insurance Type'}}" formControlName="InsuranceType" id="InsuranceType">
+
+            <div *ngIf="createPatientForm.controls['InsuranceType'].hasError('required') && submitted" class="text-danger error">Insurance type is required.</div>
+            <div *ngIf="createPatientForm.controls['InsuranceType'].hasError('pattern') && submitted" class="text-danger error">Insurance type is invalid.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-link" (click)="close()">Cancel</button>
+    <button type="submit" class="primary-gradient-btn">Create</button>
+  </div>
+</form>

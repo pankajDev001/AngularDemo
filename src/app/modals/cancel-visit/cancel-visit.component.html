@@ -1,0 +1,28 @@
+<div class="modal-header">
+  <h4 class="modal-title">Cancel Visit</h4>
+  <button type="button" class="close" aria-label="Close" (click)="close()">
+    <img src="assets/images/close.svg" alt="close icon" width="25">
+  </button>
+</div>
+<div class="modal-body">
+  <div class="tab-pane fade show active" id="agency" role="tabpanel" aria-labelledby="agency-tab">
+    <form role="form">
+
+      <div class="review-body">
+        <div class="form-group">
+          <label class="col-form-label">Reason<span class="text-danger">*</span></label>
+          <textarea class="form-control" name="reviewDesc" [(ngModel)]="reason" rows="3"></textarea>
+          <div *ngIf="!reason && submit" class="text-danger error">Reason field is required.</div>
+
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-link" (click)="close()">Cancel</button>
+  <button type="submit" class="primary-gradient-btn" (click)="cancelVisit()">Submit</button>
+</div>
+

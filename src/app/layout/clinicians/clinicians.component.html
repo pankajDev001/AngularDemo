@@ -1,0 +1,163 @@
+<div class="row page-header-wrapper shadow-sm">
+  <div class="col">
+    <h2 class="page-header">Clinicians</h2>
+  </div>
+  <div class="col-auto p-relative">
+      <button class="btn primary-gradient-btn btn-filter" (click)="onFilterToggle($event)"><span class="filter-text mr-2">FILTERS</span> <i class="fa fa-filter"></i></button>
+    <form class="page-header-filter" [class.active]="classApplied" [formGroup]="clinicianFilterForm" (ngSubmit)="filterClinicians()" autocomplete="off">
+      <div class="row">
+        <div class="col-auto">
+          <div class="form-group">
+             <label class="col-form-label" for="clinicianName">Clinician Name</label>
+              <input type="text" id="clinicianName" formControlName="name" placeholder="Search Clinician Here" class="form-control filter-control">
+          </div>
+        </div>
+        <div class="col-auto">
+          <div class="form-group">
+              <label class="col-form-label" for="gender">Select Gender</label>
+              <ng-select class="ng-filter-control" [items]="gender" bindLabel="value" bindValue="id" id="gender" formControlName="gender" placeholder="Search By Gender"
+              [clearable]="false"></ng-select>
+          </div>
+        </div>
+
+        <div class="col-auto">
+          <div class="form-group">
+              <label class="col-form-label" for="selectLanguage">Select Language</label>
+              <ng-select class="ng-filter-control" [items]="langPreference" bindLabel="value" bindValue="id" id="selectLanguage" formControlName="langPreference" placeholder="Search By Language preference"
+              [clearable]="false"></ng-select>
+          </div>
+        </div>
+        <div class="col-auto">
+          <div class="form-group">
+              <label class="col-form-label" for="selectCategory">Select Category</label>
+              <ng-select class="ng-filter-control" [items]="category" bindLabel="value" bindValue="id"  id="selectCategory" formControlName="category" placeholder="Search By Category"
+              [clearable]="false"></ng-select>
+          </div>
+        </div>
+
+        <div class="col-auto">
+          <div class="form-group">
+              <label class="col-form-label" for="sortBy">Sort By</label>
+              <ng-select class="ng-filter-control" [items]="sortBy" bindLabel="value" bindValue="id" id="sortBy" formControlName="sortBy" placeholder="Sort By"
+              [clearable]="false"></ng-select>
+          </div>
+        </div>
+
+        <div class="col text-center">
+          <button type="submit" class="primary-gradient-btn" [disabled]="!clinicianFilterForm.valid">Search</button>
+          <button type="button" class="btn btn-link btn-rounded ml-3" (click)="resetFilterForm()">Reset</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<div [@routerTransition]>
+  <div class="clinician-summary-section">
+    <div class="row justify-content-end">
+      <div class="col-xl-8 col-xxl-6">
+          <div class="row small-summary-section mb-0">
+              <div class="col-12 col-md mb-4">
+                <div class="card cursor-pointer" (click)="getCardList(null)">
+                  <div class="card-body">
+                    <span class="counters">{{listCounts.total}}</span> Total Clinicians</div>
+                </div>
+              </div>
+              <div class="col-12 col-md mb-4">
+                <div class="card cursor-pointer" (click)="getCardList(true)">
+                  <div class="card-body">
+                    <span class="counters text-success">{{listCounts.totalActive}}</span> Active Clinicians</div>
+                </div>
+              </div>
+              <div class="col-12 col-md mb-4">
+                <div class="card cursor-pointer" (click)="getCardList(false)">
+                  <div class="card-body">
+                    <span class="counters text-danger">{{listCounts.totalInActive}}</span> Inactive Clinicians</div>
+                </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6 col-lg-4 col-xxl-3 col-xxxl-2 mb-4" *ngFor="let clinician of clinicians | paginate: { itemsPerPage: pageSize, currentPage: p, totalItems : totalDataCount }">
+      <div class="card user-card clinician-card h-100 mb-0" [ngClass]="user.role === 'AGENCY' ? 'clinician-with-btn' : '' ">
+        <div class="card-header d-flex justify-content-between">
+          <div>
+          <div class="active-inactive" *ngIf="user.role === 'SUPER_ADMIN' || isEditPermission">
+            <label class="switch" ngbTooltip="Activate/De-Activate a clinician">
+              <input type="checkbox"  [checked]="clinician.active" (change)="changeStatus(clinician, $event)" [id]="clinician.userId">
+              <span class="slider round"></span>
+            </label>
+          </div>
+          </div>
+          <div class="actions-wrapper">
+            <div class="view" *ngIf="user.role === 'SUPER_ADMIN' || isViewPermission">
+              <a (click)="goToClinician(clinician)" placement="top" ngbTooltip="View" >
+                <div class="icon-wrapper">
+                  <i class="fa fa-eye"></i>
+                </div>
+              </a>
+            </div>
+
+            <div class="edit" *ngIf="user.role === 'SUPER_ADMIN' || isEditPermission">
+              <a (click)="editClinician(clinician)" placement="top" ngbTooltip="Edit">
+                <div class="icon-wrapper">
+                  <i class="fa fa-pencil"></i>
+                </div>
+              </a>
+            </div>
+
+            <div class="delete"  *ngIf="user.role === 'SUPER_ADMIN' || isDeletePermission">
+              <a (click)="deleteClinician(clinician)" placement="top" ngbTooltip="Delete">
+                <div class="icon-wrapper">
+                  <i class="fa fa-trash"></i>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body p-relative">
+            <div class="avatar-section text-center">
+              <img src="{{contentUrl}}{{clinician.profileImage}}" alt="Avatar" width="80" class="rounded-circle">
+            </div>
+            <div class="name">{{clinician.firstName}} {{clinician.lastName}}</div>
+            <div class="info-text patient-type">{{clinician.patientType}}</div>
+            <div class="d-flex justify-content-center align-items-center mb-2">
+                <div class="review mb-0" (click)="onRate($event,clinician)">
+                    <star-rating  [value]="clinician.averageRating" [totalstars]="5" checkedcolor="#f2cc00" uncheckedcolor="#999999" size="19"  [readonly]="true"
+                                 style="display: inline-block"></star-rating>
+
+                  </div>
+                  <div class="address mb-0 ml-1 cursor-pointer" (click)="onRate($event,clinician)">({{ (clinician ? clinician?.averageRating  : '0.0') | number:'1.1-1'}} / {{clinician ? clinician?.totalRatings : '0'}} Reviews)</div>
+            </div>
+
+            <div class="address">{{clinician.addressLine}}, {{ clinician.city}}, {{( clinician.stateCode ? clinician.stateCode: clinician.state)}}, {{ clinician.zipCode}}</div>
+            <div class="other-details-fixed">
+                <div class="other-details  d-flex justify-content-between align-items-center">
+                    <div class="bg-check">B/G Check:
+                      <span *ngIf="clinician.backgroudVerficationStatus" class="text-success">Done</span>
+                      <span *ngIf="!clinician.backgroudVerficationStatus" class="text-danger">Pending</span>
+                    </div>
+                    <div class="fees">${{clinician.perVisitRate}}</div>
+                </div>
+                <div class="mt-2" *ngIf="user.role === 'AGENCY'">
+                  <a (click)="goToVist(clinician)" class="btn btn-outline-primary btn-radius text-uppercase">Schedule Visit</a>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="clinicians?.length === 0 && loading === false">
+    <h3 class="text-center">No Records Found.</h3>
+  </div>
+
+  <div *ngIf="clinicians?.length == 0 && loading">
+    <h3 class="text-center">Loading....</h3>
+  </div>
+
+  <pagination-controls *ngIf="totalDataCount > 0" (pageChange)="p = $event" (pageChange)="pageChanged($event)" style="float: right;"></pagination-controls>
+</div>

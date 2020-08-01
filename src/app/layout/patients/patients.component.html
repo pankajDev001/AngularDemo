@@ -1,0 +1,15 @@
+<div class="row page-header-wrapper shadow-sm">
+  <div class="col-12">
+    <h2 class="page-header">Patients
+      <a *ngIf="user.role === 'AGENCY'" class="primary-gradient-btn" (click)="addPatientModal()">Add New Patient</a>
+    </h2>
+  </div>
+</div>
+
+<div [@routerTransition]>
+  <div class="card">
+    <div class="card-body">
+      <table datatable [dtOptions]="dtOptions" id="patients-listing"></table>
+    </div>
+  </div>
+</div>

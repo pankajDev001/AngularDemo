@@ -1,0 +1,27 @@
+<div class="modal-header">
+  <h4 class="modal-title">Nearby Zipcodes</h4>
+  <button type="button" class="close" aria-label="Close" (click)="close()">
+    <img src="assets/images/close.svg" alt="close icon" width="25">
+  </button>
+</div>
+<div class="modal-body">
+  <div class="tab-pane fade show active" id="agency" role="tabpanel" aria-labelledby="agency-tab">
+    <div class="row form-group align-items-center">
+      <div class="col-auto">
+        <label class="col-form-label">No Clinicians Found In Provided Zipcode, Try Below Zipcodes</label>
+      </div>
+    </div>
+
+    <div class="row form-group align-items-center">
+      <div class="col-auto">
+      <label class="">{{removeLastComma(zipCodes)}}</label>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-link" (click)="close()">OK</button>
+</div>
+

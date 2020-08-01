@@ -1,0 +1,36 @@
+<!-- Transition is not applied because position absolute issue -->
+<div class="page-center-wrapper">
+  <div class="page-center">
+    <div class="healthPro-card">
+      <div class="healthPro-card-container shadow-lg bg-white">
+        <div class="healthPro-card-header">
+          <div class="healthPro-card-header-title">HomeHealthPro</div>
+        </div>
+        <div class="healthPro-card-body">
+          <div class="healthPro-card-body-info">
+            <h1>Verify OTP</h1>
+            <p>Enter OTP which we have sent you at registered email id.</p>
+          </div>
+          <form role="form" [formGroup]="otpForm" (ngSubmit)="onSubmit()" autocomplete="off">
+            <div class="healthPro-card-formContent">
+              <div class="form-group">
+                <label for="enterOTP" class="col-form-label">Enter OTP<span class="text-danger">*</span></label>
+                <input type="text" placeholder="Enter OTP" class="form-control input-underline input-lg"  id="enterOTP" formControlName="Otp" maxlength="6"  mask="000000">
+
+                <div *ngIf="otpForm.controls['Otp'].hasError('required') && submitted" class="text-danger error">OTP is required.</div>
+                <div *ngIf="otpForm.controls['Otp'].dirty && otpForm.controls['Otp'].hasError('pattern') && submitted" class="text-danger error">Only numbers is allowed.</div>
+                <div *ngIf="otpForm.controls['Otp'].hasError('minlength') && !otpForm.controls['Otp'].hasError('pattern') && submitted" class="text-danger error">Enter 6 Digits OTP.</div>
+              </div>
+            </div>
+            <div class="healthPro-card-buttons text-center">
+              <button type="submit" class="btn btn-primary btn-block btn-radius">Verify</button>
+
+              <p class="default-text mt-3 mb-0">Haven't received OTP yet?</p>
+              <button type="button" class="btn btn-link" (click)="resendOTP()">Resend OTP</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
